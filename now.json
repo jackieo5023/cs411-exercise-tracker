@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "name": "cs411-exercise-tracker",
+  "alias": "cs411-exercise-tracker.now.sh",
+  "builds": [
+    {
+      "src": "client/package.json",
+      "use": "@now/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/client/src/service-worker.js",
+      "headers": {
+        "cache-control": "s-maxage=0"
+      },
+      "dest": "client/service-worker.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "client/index.html"
+    }
+  ]
+}
