@@ -13,7 +13,21 @@
   ],
   "routes": [
     {
-      "src": "/manifest.json",
+      "src": "/asset/images/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=604800"
+      },
+      "dest": "client/asset/images/$1"
+    },
+    {
+      "src": "/asset/icon/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=604800"
+      },
+      "dest": "client/asset/icon/$1"
+    },
+    {
+      "src": "/asset/manifest.json",
       "dest": "client/asset/manifest.json"
     },
     {
