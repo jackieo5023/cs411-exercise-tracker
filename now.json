@@ -13,7 +13,7 @@
   ],
   "routes": [
     {
-      "src": "/asset/manifest.json",
+      "src": "/manifest.json",
       "dest": "client/asset/manifest.json"
     },
     {
