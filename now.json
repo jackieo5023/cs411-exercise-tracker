@@ -15,21 +15,21 @@
     {
       "src": "/static/(.*)",
       "headers": { "cache-control": "s-maxage=31536000,immutable" },
-      "dest": "/static/$1"
+      "dest": "client/static/$1"
     },
-    { "src": "/favicon.ico", "dest": "/favicon.ico" },
-    { "src": "/asset-manifest.json", "dest": "/asset-manifest.json" },
-    { "src": "/manifest.json", "dest": "/manifest.json" },
-    { "src": "/precache-manifest.(.*)", "dest": "/precache-manifest.$1" },
+    { "src": "/favicon.ico", "dest": "client/favicon.ico" },
+    { "src": "/asset-manifest.json", "dest": "client/asset-manifest.json" },
+    { "src": "/manifest.json", "dest": "client/manifest.json" },
+    { "src": "/precache-manifest.(.*)", "dest": "client/precache-manifest.$1" },
     {
       "src": "/service-worker.js",
       "headers": { "cache-control": "s-maxage=0" },
-      "dest": "/service-worker.js"
+      "dest": "client/service-worker.js"
     },
     {
       "src": "/(.*)",
       "headers": { "cache-control": "s-maxage=0" },
-      "dest": "/index.html"
+      "dest": "client/index.html"
     }
   ]
 }
