@@ -11,8 +11,10 @@ mongo.init_app(app)
 def insert_test():
     # This just inserts a new entry into the collection "testdb", document "test" where the name of the entry is "test"
     # I just wanted to provide a basic example and also make sure this worked
+    print(x)
     client = mongo.cx
     x = client.testdb.test.insert_one({"name": "test"})
+    print(x)
     return dumps({"id": x.inserted_id})
 
 # def create_app():
