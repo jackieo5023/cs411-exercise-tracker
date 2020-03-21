@@ -8,11 +8,11 @@
   },
   "builds": [
     {
-      "src": "api_mongo/src/routes.py",
+      "src": "api_mongo/src/__init__.py",
       "use": "@now/python"
     },
     {
-      "src": "api_sql/src/routes.py",
+      "src": "api_sql/src/__init__.py",
       "use": "@now/python"
     },
     {
@@ -29,14 +29,14 @@
       "headers": {
         "cache-control": "s-maxage=0"
       },
-      "dest": "api_mongo/src/routes.py"
+      "dest": "api_mongo/src/__init__.py"
     },
     {
       "src": "/api/sql/(.*)",
       "headers": {
         "cache-control": "s-maxage=0"
       },
-      "dest": "api_sql/src/routes.py"
+      "dest": "api_sql/src/__init__.py"
     },
     {
       "src": "/static/(.*)",
