@@ -8,7 +8,7 @@
   },
   "builds": [
     {
-      "src": "*.py",
+      "src": "api_mongo/(*.py)",
       "use": "@now/python",
       "config": {
         "maxLambdaSize": "10mb"
