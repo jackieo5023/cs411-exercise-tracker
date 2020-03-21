@@ -4,6 +4,7 @@ from bson.json_util import dumps
 
 mongo = PyMongo()
 app = Flask(__name__, instance_relative_config=False)
+app.wsgi_app = ProxyFix(app.wsgi_app)
 app.config.from_object('config.Config')
 mongo.init_app(app)
 
