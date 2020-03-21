@@ -8,12 +8,11 @@
   },
   "builds": [
     {
-      "src": "api_mongo/src/__init__.py",
-      "use": "@now/python"
-    },
-    {
-      "src": "api_sql/src/__init__.py",
-      "use": "@now/python"
+      "src": "*.py",
+      "use": "@now/python",
+      "config": {
+        "maxLambdaSize": "10mb"
+      }
     },
     {
       "src": "client/package.json",
