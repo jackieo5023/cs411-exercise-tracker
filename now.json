@@ -2,7 +2,25 @@
   "version": 2,
   "name": "cs411-exercise-tracker",
   "alias": "cs411-exercise-tracker.now.sh",
+  "env": {
+    "MONGO_URI": "@cs411_mongo_uri",
+    "SQLALCHEMY_TRACK_MODIFICATIONS": "@cs411_sqlalchemy_track_modification"
+  },
   "builds": [
+    {
+      "src": "api_mongo/src/routes.py",
+      "use": "@now/python",
+      "config": {
+        "distDir": "build"
+      }
+    },
+    {
+      "src": "api_sql/src/routes.py",
+      "use": "@now/python",
+      "config": {
+        "distDir": "build"
+      }
+    },
     {
       "src": "client/package.json",
       "use": "@now/static-build",
@@ -13,22 +31,54 @@
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=0"
+      },
+      "dest": "api_mongo/src/routes.py"
+    },
+    {
+      "src": "/api/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=0"
+      },
+      "dest": "api_sql/src/routes.py"
+    },
+    {
       "src": "/static/(.*)",
-      "headers": { "cache-control": "s-maxage=31536000,immutable" },
+      "headers": {
+        "cache-control": "s-maxage=31536000,immutable"
+      },
       "dest": "client/static/$1"
     },
-    { "src": "/favicon.ico", "dest": "client/favicon.ico" },
-    { "src": "/asset-manifest.json", "dest": "client/asset-manifest.json" },
-    { "src": "/manifest.json", "dest": "client/manifest.json" },
-    { "src": "/precache-manifest.(.*)", "dest": "client/precache-manifest.$1" },
+    {
+      "src": "/favicon.ico",
+      "dest": "client/favicon.ico"
+    },
+    {
+      "src": "/asset-manifest.json",
+      "dest": "client/asset-manifest.json"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "client/manifest.json"
+    },
+    {
+      "src": "/precache-manifest.(.*)",
+      "dest": "client/precache-manifest.$1"
+    },
     {
       "src": "/service-worker.js",
-      "headers": { "cache-control": "s-maxage=0" },
+      "headers": {
+        "cache-control": "s-maxage=0"
+      },
       "dest": "client/service-worker.js"
     },
     {
       "src": "/(.*)",
-      "headers": { "cache-control": "s-maxage=0" },
+      "headers": {
+        "cache-control": "s-maxage=0"
+      },
       "dest": "client/index.html"
     }
   ]
