@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_pymongo import PyMongo
 from bson.json_util import dumps
+from werkzeug.contrib.fixers import ProxyFix
 
 mongo = PyMongo()
 app = Flask(__name__, instance_relative_config=False)
