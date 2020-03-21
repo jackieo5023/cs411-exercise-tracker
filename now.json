@@ -9,17 +9,11 @@
   "builds": [
     {
       "src": "api_mongo/src/routes.py",
-      "use": "@now/python",
-      "config": {
-        "distDir": "build"
-      }
+      "use": "@now/python"
     },
     {
       "src": "api_sql/src/routes.py",
-      "use": "@now/python",
-      "config": {
-        "distDir": "build"
-      }
+      "use": "@now/python"
     },
     {
       "src": "client/package.json",
@@ -31,14 +25,14 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/api/mongo/(.*)",
       "headers": {
         "cache-control": "s-maxage=0"
       },
       "dest": "api_mongo/src/routes.py"
     },
     {
-      "src": "/api/(.*)",
+      "src": "/api/sql/(.*)",
       "headers": {
         "cache-control": "s-maxage=0"
       },
