@@ -2,19 +2,7 @@
   "version": 2,
   "name": "cs411-exercise-tracker",
   "alias": "cs411-exercise-tracker.now.sh",
-  "env": {
-    "MONGO_URI": "@cs411_mongo_uri",
-    "SQLALCHEMY_TRACK_MODIFICATIONS": "@cs411_sqlalchemy_track_modification"
-  },
   "builds": [
-    {
-      "src": "api_mongo/src/__init__.py",
-      "use": "@now/python"
-    },
-    {
-      "src": "api_sql/src/__init__.py",
-      "use": "@now/python"
-    },
     {
       "src": "client/package.json",
       "use": "@now/static-build",
@@ -24,20 +12,6 @@
     }
   ],
   "routes": [
-    {
-      "src": "/api/mongo/(.*)",
-      "headers": {
-        "cache-control": "s-maxage=0"
-      },
-      "dest": "api_mongo/src/__init__.py"
-    },
-    {
-      "src": "/api/sql/(.*)",
-      "headers": {
-        "cache-control": "s-maxage=0"
-      },
-      "dest": "api_sql/src/__init__.py"
-    },
     {
       "src": "/static/(.*)",
       "headers": {
