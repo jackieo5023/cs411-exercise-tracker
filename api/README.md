@@ -20,6 +20,9 @@ This sets up your environment file and virtual environment for dev.  To get out 
 The api is now running on `localhost:5000`.
 If you make a change to the api, Ctrl-C and re-run `flask run` to see the changes reflected.
 
+## Technical stuff
+The backend is built using Flask and runs on [this AWS EC2 instance](http://ec2-3-136-159-241.us-east-2.compute.amazonaws.com:5000/).
+You can view the routes available in `src/routes.py`.
 
 ### Built from these tutorials:
 * https://realpython.com/flask-by-example-part-1-project-setup/
