@@ -1,7 +1,6 @@
 from flask import current_app as app, request
 from bson.json_util import dumps
 from . import mongo
-from .models import db
 
 @app.route("/api")
 def home():
