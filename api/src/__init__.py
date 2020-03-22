@@ -3,18 +3,18 @@ from flask_pymongo import PyMongo
 from flask_sqlalchemy import SQLAlchemy
 from bson.json_util import dumps
 
-# db = SQLAlchemy()
+## db = SQLAlchemy()
 
 app = Flask(__name__, instance_relative_config=False)
 app.config.from_object('config.Config')
 
-# db.init_app(app)
+## db.init_app(app)
 
 mongo = PyMongo()
 mongo.init_app(app)
 
-@app.route("/api/sql")
-def index():
+@app.route("/")
+def home():
     return "Hello, world!"
 
 @app.route("/api/mongo/test")
@@ -25,16 +25,19 @@ def insert_test():
     x = client.testdb.test.insert_one({"name": "test"})
     return dumps({"id": x.inserted_id})
 
-# def create_app():
-#     """Construct the core application."""
-#     app = Flask(__name__, instance_relative_config=False)
-#     app.config.from_object('config.Config')
-#     # db.init_app(app)
+## def create_app():
+##     """Construct the core application."""
+##     app = Flask(__name__, instance_relative_config=False)
+##     app.config.from_object('config.Config')
+##     # db.init_app(app)
 
-#     with app.app_context():
-#         from . import routes
+##     with app.app_context():
+##         from . import routes
 
-#         # Create tables for our models
-#         # db.create_all()
+##         # Create tables for our models
+##         # db.create_all()
 
-#         return app
+##         return app
+
+if __name__ == '__main__':
+    app.run()
