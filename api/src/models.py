@@ -14,15 +14,13 @@ class Person(db.Model):
 
     __tablename__ = 'people'
     id = db.Column(db.Integer, primary_key=True)
-    publicId = db.Column(db.Integer, unique=True)
     name = db.Column(db.String(255), nullable=False)
     gender = db.Column(db.Enum(Gender), nullable=False)
     weight = db.Column(db.Integer, nullable=False)
     height = db.Column(db.Integer, nullable=False)
     age = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, publicId, name, gender, weight, height, age):
-        self.publicId = publicId
+    def __init__(self, name, gender, weight, height, age):
         self.name = name
         self.gender = gender
         self.weight = weight
