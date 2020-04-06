@@ -4,9 +4,9 @@ import enum
 # Useful for building models: https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
 
 class Gender(enum.Enum):
-    FEMALE = "female"
-    MALE = "male"
-    OTHER = "other"
+    FEMALE = "Female"
+    MALE = "Male"
+    OTHER = "Other"
 
 class Person(db.Model):
     """Model for user accounts"""
