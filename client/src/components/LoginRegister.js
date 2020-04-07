@@ -18,14 +18,15 @@ function Register({ setUserId, setIsLogin }) {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      const { name, weight, height, age, gender } = e.target.elements;
+      const { firstName, weight, height, age, gender, lastName } = e.target.elements;
 
       const response = await register({
-        name: name.value,
+        firstName: firstName.value,
         weight: weight.value,
         height: height.value,
         age: age.value,
         gender: gender.value,
+        lastName: lastName.value
       });
       if (response.status !== 201) {
         setMessage(response.message);
@@ -48,11 +49,19 @@ function Register({ setUserId, setIsLogin }) {
           </FormGroup>
         )}
         <FormGroup row>
-          <Label for="name" sm={2}>
-            Name
+          <Label for="firstName" sm={2}>
+            First Name
           </Label>
           <Col>
-            <Input type="text" name="name" id="name" placeholder="John Smith" />
+            <Input type="text" name="firstName" id="firstName" placeholder="Johnny" />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label for="lastName" sm={2}>
+            Last Name
+          </Label>
+          <Col>
+            <Input type="text" name="lastName" id="lastName" placeholder="Appleseed" />
           </Col>
         </FormGroup>
         <FormGroup row>
