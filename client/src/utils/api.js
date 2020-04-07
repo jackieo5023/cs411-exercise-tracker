@@ -1,7 +1,7 @@
 import fetch from "isomorphic-fetch";
 
 const BASE_URL =
-  "http://ec2-3-136-159-241.us-east-2.compute.amazonaws.com:5000/api";
+  "https://ec2-3-136-159-241.us-east-2.compute.amazonaws.com:5000/api";
 
 export const login = (body) => {
   console.log(body);
