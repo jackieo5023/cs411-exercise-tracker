@@ -32,20 +32,21 @@ def register():
     body = request.get_json()
     if not body:
         return {"status": 400, "message": "Invalid body"}
-    
-    name = body.get("name")
+
+    firstName = body.get("firstName")
     gender = body.get("gender")
     weight = body.get("weight")
     height = body.get("height")
     age = body.get("age")
+    lastName = body.get("lastName")
 
-    if not name or not gender or not weight or not height or not age:
+    if not firstName or not lastName or not gender or not weight or not height or not age:
         return {"status": 400, "message": "Missing field"}
 
     try:
         result = db.session.execute(
-            "INSERT INTO people (name, gender, weight, height, age) VALUES (:name, :gender, :weight, :height, :age)",
-            {"name": name, "gender": gender, "weight": weight, "height": height, "age": age},
+            "INSERT INTO people (firstName, gender, weight, height, age, lastName) VALUES (:firstName, :gender, :weight, :height, :age, :lastName)",
+            {"firstName": firstName, "gender": gender, "weight": weight, "height": height, "age": age, "lastName": lastName},
         )
         db.session.commit()
     except IntegrityError:
@@ -61,7 +62,7 @@ def login():
     body = request.get_json()
     if not body:
         return {"status": 400, "message": "Invalid body"}
-    
+
     person_id = body.get("id")
 
     if not person_id:
