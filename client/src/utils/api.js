@@ -4,7 +4,6 @@ const BASE_URL =
   "https://ec2-3-136-159-241.us-east-2.compute.amazonaws.com:5000/api";
 
 export const login = (body) => {
-  console.log(body);
   return fetch(`${BASE_URL}/login`, {
     method: "POST",
     headers: {
@@ -17,7 +16,6 @@ export const login = (body) => {
 };
 
 export const register = (body) => {
-  console.log(body);
   return fetch(`${BASE_URL}/register`, {
     method: "POST",
     headers: {
