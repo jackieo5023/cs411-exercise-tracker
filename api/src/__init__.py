@@ -1,10 +1,12 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_pymongo import PyMongo
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 app = Flask(__name__, instance_relative_config=False)
 app.config.from_object('config.Config')
+CORS(app)
 
 db = SQLAlchemy()
 migrate = Migrate(app, db)
