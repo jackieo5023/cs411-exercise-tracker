@@ -1,9 +1,13 @@
 import React from "react";
 
+//Stylesheet
+import "../css/Profile.css";
+
 function UserProfile() {
   return (
-    <div>
-      <h1>This is the profile page</h1>
+    <div class="grid-container-profile">
+      <div class="A"></div>
+      <div class="B"></div>
     </div>
   );
 }

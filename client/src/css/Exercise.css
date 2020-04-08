@@ -1,0 +1,34 @@
+html,
+body,
+.grid-container-exercise {
+  height: 100vh;
+  margin: 0;
+}
+
+.grid-container-exercise * {
+  border: 1px solid red;
+  position: relative;
+}
+
+.grid-container-exercise *:after {
+  content: attr(class);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.grid-container-exercise {
+  display: grid;
+  grid-template-columns: 68% 32%;
+  grid-template-rows: 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "A B";
+}
+
+.A {
+  grid-area: A;
+}
+
+.B {
+  grid-area: B;
+}

@@ -1,0 +1,34 @@
+html,
+body,
+.grid-container-nutrition {
+  height: 100vh;
+  margin: 0;
+}
+
+.grid-container-nutrition * {
+  border: 1px solid red;
+  position: relative;
+}
+
+.grid-container-nutrition *:after {
+  content: attr(class);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.grid-container-nutrition {
+  display: grid;
+  grid-template-columns: 68% 32%;
+  grid-template-rows: 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "A B";
+}
+
+.A {
+  grid-area: A;
+}
+
+.B {
+  grid-area: B;
+}

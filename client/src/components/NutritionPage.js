@@ -1,9 +1,13 @@
 import React from "react";
 
+//Stylesheet
+import "../css/Nutrition.css";
+
 function NutritionPage() {
   return (
-    <div>
-      <h1>This is the nutrition page</h1>
+    <div class="grid-container-nutrition">
+      <div class="A"></div>
+      <div class="B"></div>
     </div>
   );
 }
