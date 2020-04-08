@@ -18,7 +18,7 @@ const Navigation = ({ userId, setUserId }) => {
       sidebar={<NavBar />}
       open={sidebarOpen}
       transitions={false}
-      docked={false}
+      docked={true}
       onSetOpen={setSidebarOpen}
       touch={false}
     >
