@@ -1,7 +1,6 @@
 .sidebar {
   width: 299px;
   height: 100%;
-  padding-right: 100%;
   background-color: #969faa;
   overflow-y: hidden;
 }
@@ -13,7 +12,6 @@
 }
 
 .content {
-  padding-right: 100%;
   width: 299px;
   background-color: #969faa;
 }
