@@ -1,7 +1,11 @@
-import React from "react";
-import { Navbar, NavbarBrand, Button } from "reactstrap";
+import React, { useState } from "react";
+import { Button } from "reactstrap";
+import Sidebar from "react-sidebar";
+import NavBar from "./NavBar";
 
 const Navigation = ({ userId, setUserId }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
   const handleClick = () => {
     if (userId) {
       setUserId(null);
@@ -10,15 +14,25 @@ const Navigation = ({ userId, setUserId }) => {
   };
 
   return (
-    <Navbar color="light" light>
-      <NavbarBrand href="/">CS411 Exercise Tracker</NavbarBrand>
+    <Sidebar
+      sidebar={<NavBar />}
+      open={sidebarOpen}
+      transitions={false}
+      docked={true}
+      onSetOpen={setSidebarOpen}
+      touch={false}
+    >
       {userId != null && (
         <Button color="secondary" onClick={handleClick}>
           Sign Out
         </Button>
       )}
-    </Navbar>
+    </Sidebar>
   );
 };
 
 export default Navigation;
+
+// <Button onClick={() => {setSidebarOpen(true)}}>
+//           Open sidebar
+//         </Button>
