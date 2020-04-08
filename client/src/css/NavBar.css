@@ -14,7 +14,6 @@
 
 .content {
   padding-right: 100%;
-  padding-left: 10px;
   width: 299px;
   background-color: #969faa;
 }
@@ -34,6 +33,11 @@
   text-decoration: none;
 }
 
+.routeLink:hover {
+  text-decoration: none;
+  color: #47525e;
+}
+
 .barItem:hover {
   background-color: #9defff;
 }
@@ -49,6 +53,7 @@
   display: block;
   width: 299px;
   height: 80px;
+  padding-left: 10px;
 }
 
 .teamName {

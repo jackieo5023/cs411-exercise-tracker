@@ -14,7 +14,6 @@ import UserProfile from "./components/UserProfile";
 import ExercisePage from "./components/ExercisePage";
 import NutritionPage from "./components/NutritionPage";
 import SettingsPage from "./components/SettingsPage";
-import NavBar from "./components/NavBar";
 
 function App() {
   const [userId, setUserId] = useState(null);
