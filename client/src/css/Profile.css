@@ -1,0 +1,34 @@
+html,
+body,
+.grid-container-profile {
+  height: 100vh;
+  margin: 0;
+}
+
+.grid-container-profile * {
+  border: 1px solid red;
+  position: relative;
+}
+
+.grid-container-profile *:after {
+  content: attr(class);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.grid-container-profile {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  grid-template-rows: 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "A B";
+}
+
+.A {
+  grid-area: A;
+}
+
+.B {
+  grid-area: B;
+}

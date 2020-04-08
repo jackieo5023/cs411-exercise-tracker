@@ -1,0 +1,62 @@
+html,
+body,
+.grid-container {
+  height: 100vh;
+  margin: 0;
+}
+
+.grid-container * {
+  border: 1px solid red;
+  position: relative;
+}
+
+.grid-container *:after {
+  content: attr(class);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 22% 28% 5% 44%;
+  gap: 1px 1px;
+  grid-template-areas: "A B C D" "E E E E" "F F G G" "H H I I";
+}
+
+.E {
+  grid-area: E;
+}
+
+.A {
+  grid-area: A;
+}
+
+.B {
+  grid-area: B;
+}
+
+.C {
+  grid-area: C;
+}
+
+.D {
+  grid-area: D;
+}
+
+.F {
+  grid-area: F;
+}
+
+.G {
+  grid-area: G;
+}
+
+.H {
+  grid-area: H;
+}
+
+.I {
+  grid-area: I;
+}

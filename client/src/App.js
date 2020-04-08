@@ -9,6 +9,14 @@ import {
 import Navigation from "./components/Navigation";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import MainDashboard from "./components/MainDashboard";
+import UserProfile from "./components/UserProfile";
+import ExercisePage from "./components/ExercisePage";
+import NutritionPage from "./components/NutritionPage";
+import SettingsPage from "./components/SettingsPage";
+import DashboardGraph from "./components/DashboardGraph";
+import ExerciseGraph from "./components/ExerciseGraph";
+import NutritionGraph from "./components/NutritionGraph";
 
 function App() {
   const [userId, setUserId] = useState(null);
@@ -55,6 +63,14 @@ function App() {
             exact
             render={() => showIfNotAuthed(<Register setUserId={setUserId} />)}
           />
+          <Route path="/dashboard" exact component={MainDashboard} />
+          <Route path="/profile" exact component={UserProfile} />
+          <Route path="/exercise" exact component={ExercisePage} />
+          <Route path="/nutrition" exact component={NutritionPage} />
+          <Route path="/settings" exact component={SettingsPage} />
+          <Route path="/dbgraph" exact component={DashboardGraph} />
+          <Route path="/exgraph" exact component={ExerciseGraph} />
+          <Route path="/nugraph" exact component={NutritionGraph} />
         </Switch>
       </Router>
     </>

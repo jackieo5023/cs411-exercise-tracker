@@ -1,0 +1,84 @@
+.sidebar {
+  width: 299px;
+  height: 1024px;
+  background-color: #969faa;
+  overflow-y: hidden;
+}
+
+.divider {
+  margin: 8px 0;
+  height: 1px;
+  background-color: #757575;
+}
+
+.content {
+  width: 299px;
+  background-color: #969faa;
+}
+
+.content .sidebarlink {
+  padding: 0px 16px;
+  color: #47525e;
+  font-family: Lato;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 80px;
+  width: 200px;
+  text-align: left;
+}
+
+/* .sidebarlink:hover {
+  text-decoration: none;
+} */
+
+.routeLink:hover {
+  text-decoration: none;
+  color: #47525e;
+}
+
+.routeLink:active {
+  color: red;
+}
+
+.barItem:hover {
+  background-color: #9defff;
+}
+
+.content .icon {
+  width: 40px;
+  height: 40px;
+  padding: 0px 0px 0px 0px;
+  margin-bottom: 10px;
+}
+
+.content .barItem {
+  display: block;
+  width: 299px;
+  height: 80px;
+  padding-left: 10px;
+}
+
+.teamName {
+  display: block;
+  color: #47525e;
+  font-family: Lato;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 30px;
+  width: 299px;
+  text-align: center;
+}
+
+.teamName:hover {
+  text-decoration: none;
+  color: #47525e;
+}
+
+.logo {
+  margin-bottom: 40px;
+}
+
+.logoImg {
+  width: 156px;
+  margin-left: 71px;
+}
