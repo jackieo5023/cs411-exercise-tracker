@@ -29,13 +29,17 @@
   text-align: left;
 }
 
-.sidebarlink:hover {
+/* .sidebarlink:hover {
   text-decoration: none;
-}
+} */
 
 .routeLink:hover {
   text-decoration: none;
   color: #47525e;
+}
+
+.routeLink:active {
+  color: red;
 }
 
 .barItem:hover {
