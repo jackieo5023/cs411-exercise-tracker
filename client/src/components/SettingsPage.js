@@ -1,4 +1,5 @@
 import React from "react";
+import PersonIcon from "@material-ui/icons/Person";
 
 function SettingsPage() {
   return (

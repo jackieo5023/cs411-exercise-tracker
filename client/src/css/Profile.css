@@ -6,12 +6,10 @@ body,
 }
 
 .grid-container-profile * {
-  border: 1px solid red;
   position: relative;
 }
 
 .grid-container-profile *:after {
-  content: attr(class);
   position: absolute;
   top: 0;
   left: 0;
@@ -31,4 +29,31 @@ body,
 
 .B {
   grid-area: B;
+}
+
+.link,
+.link:hover {
+  text-decoration: none;
+}
+
+.row {
+  margin-bottom: 1em;
+  padding-left: 5em;
+}
+
+.age {
+  width: 10em;
+}
+
+.gender {
+  width: 11.4em;
+}
+
+.weight {
+  width: 10em;
+}
+
+.height {
+  margin-left: 2em;
+  width: 10em;
 }

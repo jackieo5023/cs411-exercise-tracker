@@ -27,7 +27,8 @@ function App() {
         return component;
       }
 
-      return <Redirect to="/login" />;
+      // return <Redirect to="/login" />;
+      return component;
     },
     [userId]
   );
@@ -46,32 +47,66 @@ function App() {
   return (
     <>
       <Router>
-        <Navigation userId={userId} setUserId={setUserId} />
-        <Switch>
-          <Route
-            path="/"
-            exact
-            render={() => showIfAuthed(<>You logged in!</>)}
-          />
-          <Route
-            path="/login"
-            exact
-            render={() => showIfNotAuthed(<Login setUserId={setUserId} />)}
-          />
-          <Route
-            path="/register"
-            exact
-            render={() => showIfNotAuthed(<Register setUserId={setUserId} />)}
-          />
-          <Route path="/dashboard" exact component={MainDashboard} />
-          <Route path="/profile" exact component={UserProfile} />
-          <Route path="/exercise" exact component={ExercisePage} />
-          <Route path="/nutrition" exact component={NutritionPage} />
-          <Route path="/settings" exact component={SettingsPage} />
-          <Route path="/dbgraph" exact component={DashboardGraph} />
-          <Route path="/exgraph" exact component={ExerciseGraph} />
-          <Route path="/nugraph" exact component={NutritionGraph} />
-        </Switch>
+        <Navigation
+          userId={userId}
+          setUserId={setUserId}
+          component={
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={() => showIfAuthed(<MainDashboard />)}
+              />
+              <Route
+                path="/login"
+                exact
+                render={() => showIfNotAuthed(<Login setUserId={setUserId} />)}
+              />
+              <Route
+                path="/register"
+                exact
+                render={() =>
+                  showIfNotAuthed(<Register setUserId={setUserId} />)
+                }
+              />
+              <Route
+                path="/profile"
+                exact
+                render={() => showIfAuthed(<UserProfile />)}
+              />
+              <Route
+                path="/exercise"
+                exact
+                render={() => showIfAuthed(<ExercisePage />)}
+              />
+              <Route
+                path="/nutrition"
+                exact
+                render={() => showIfAuthed(<NutritionPage />)}
+              />
+              <Route
+                path="/settings"
+                exact
+                render={() => showIfAuthed(<SettingsPage />)}
+              />
+              <Route
+                path="/dbgraph"
+                exact
+                render={() => showIfAuthed(<DashboardGraph />)}
+              />
+              <Route
+                path="/exgraph"
+                exact
+                render={() => showIfAuthed(<ExerciseGraph />)}
+              />
+              <Route
+                path="/nugraph"
+                exact
+                render={() => showIfAuthed(<NutritionGraph />)}
+              />
+            </Switch>
+          }
+        />
       </Router>
     </>
   );
