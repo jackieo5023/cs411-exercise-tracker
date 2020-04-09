@@ -27,8 +27,7 @@ function App() {
         return component;
       }
 
-      // return <Redirect to="/login" />;
-      return component;
+      return <Redirect to="/login" />;
     },
     [userId]
   );
