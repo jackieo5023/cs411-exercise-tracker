@@ -1,0 +1,8 @@
+.main {
+  text-align: center;
+}
+
+.link,
+link:hover {
+  text-decoration: none;
+}

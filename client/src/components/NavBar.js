@@ -1,22 +1,10 @@
 import React from "react";
-// import {
-//   Route,
-//   Link,
-//   BrowserRouter as Router,
-//   Switch,
-//   Redirect,
-// } from "react-router-dom";
+import { Button } from "reactstrap";
+import { NavLink } from "react-router-dom";
+
 //Stylesheet
 import "../css/NavBar.css";
-//Components
-import Navigation from "./Navigation";
-import Login from "./Login";
-import Register from "./Register";
-import MainDashboard from "./MainDashboard";
-import UserProfile from "./UserProfile";
-import ExercisePage from "./ExercisePage";
-import NutritionPage from "./NutritionPage";
-import SettingsPage from "./SettingsPage";
+
 //Icons
 import dashboardIcon from "../assets/dashboardicon.png";
 import profileicon from "../assets/profileicon.png";
@@ -24,44 +12,56 @@ import exerciseicon from "../assets/exerciseicon.png";
 import nutritionicon from "../assets/nutritionicon.png";
 import settingsicon from "../assets/settingsicon.png";
 
-function NavBar() {
+function NavBar({ userId, setUserId }) {
+  const handleClick = () => {
+    if (userId) {
+      setUserId(null);
+    } else {
+    }
+  };
+
   return (
     <div className="sidebar">
       <div className="logo">
         <img src={dashboardIcon} alt="" className="logoImg" />
-        <a className="teamName">Team Seg_Fault</a>
+        <span className="teamName">Team Seg_Fault</span>
       </div>
       <div className="content">
-        <a className="routeLink" href="/dashboard">
+        <NavLink className="routeLink" to="/dashboard">
           <div className="barItem">
             <img src={dashboardIcon} alt="" className="icon" />
-            <a className="sidebarlink">Dashboard</a>
+            <span className="sidebarlink">Dashboard</span>
           </div>
-        </a>
-        <a className="routeLink" href="/profile">
+        </NavLink>
+        <NavLink className="routeLink" to="/profile">
           <div className="barItem">
             <img src={profileicon} alt="" className="icon" />
-            <a className="sidebarlink">My Profile</a>
+            <span className="sidebarlink">My Profile</span>
           </div>
-        </a>
-        <a className="routeLink" href="/exercise">
+        </NavLink>
+        <NavLink className="routeLink" to="/exercise">
           <div className="barItem">
             <img src={exerciseicon} alt="" className="icon" />
-            <a className="sidebarlink">Exercise</a>
+            <span className="sidebarlink">Exercise</span>
           </div>
-        </a>
-        <a className="routeLink" href="/nutrition">
+        </NavLink>
+        <NavLink className="routeLink" to="/nutrition">
           <div className="barItem">
             <img src={nutritionicon} alt="" className="icon" />
-            <a className="sidebarlink">Nutrition</a>
+            <span className="sidebarlink">Nutrition</span>
           </div>
-        </a>
-        <a className="routeLink" href="/settings">
+        </NavLink>
+        <NavLink className="routeLink" to="/settings">
           <div className="barItem">
             <img src={settingsicon} alt="" className="icon" />
-            <a className="sidebarlink">Settings</a>
+            <span className="sidebarlink">Settings</span>
           </div>
-        </a>
+        </NavLink>
+        {userId && (
+          <Button color="secondary" onClick={handleClick}>
+            Sign Out
+          </Button>
+        )}
       </div>
     </div>
   );
