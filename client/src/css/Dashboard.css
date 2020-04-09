@@ -6,7 +6,7 @@ body,
 }
 
 .grid-container * {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   position: relative;
 }
 
@@ -26,7 +26,7 @@ body,
   grid-template-areas: "A B C D" "E E E E" "F F G G" "H H I I";
 }
 
-.E {
+.dashboardgraphpanel {
   grid-area: E;
 }
 
@@ -62,7 +62,8 @@ body,
 .I {
   grid-area: I;
 }
-
+.dashboardgraph {
+}
 .welcome {
   display: table-cell;
   margin-top: 25%;
@@ -75,11 +76,14 @@ body,
 .loggingmsg {
   display: block;
   font-size: 2vw;
+  margin-right: 3%;
 }
 
 /* Card 1: Ranking */
 .rankingcard {
   text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
 }
 
 .rankingcardcontent {
@@ -94,7 +98,7 @@ body,
 
 .rankingcardtext {
   display: block;
-  font-size: 1.5vw;
+  font-size: 1vw;
   color: #ffffff;
   font-family: Lato;
 }
@@ -109,6 +113,8 @@ body,
 /* Card 2: Burned calories */
 .burnedcalcard {
   text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
 }
 
 .burnedcalcardcontent {
@@ -138,6 +144,8 @@ body,
 /* Card 3: Exercise */
 .exercisecard {
   text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
 }
 
 .exercisecardcontent {
