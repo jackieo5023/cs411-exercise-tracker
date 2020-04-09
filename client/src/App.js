@@ -72,7 +72,7 @@ function App() {
               <Route
                 path="/profile"
                 exact
-                render={() => showIfAuthed(<UserProfile />)}
+                render={(props) => showIfAuthed(<UserProfile {...props} />)}
               />
               <Route
                 path="/exercise"

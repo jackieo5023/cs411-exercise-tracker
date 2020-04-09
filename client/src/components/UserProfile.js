@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   Input,
@@ -13,9 +14,8 @@ import SettingsIcon from "@material-ui/icons/Settings";
 
 //Stylesheet
 import "../css/Profile.css";
-import { Link } from "react-router-dom";
 
-function UserProfile() {
+function UserProfile({ location }) {
   // TODO: populate data from profile api call
   const [profile, setProfile] = useState({
     firstName: "Jackie",
@@ -26,7 +26,9 @@ function UserProfile() {
     height: 70,
   });
   const [editingProfile, setEditingProfile] = useState(profile);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(
+    location.state ? location.state.isEditing : false
+  );
 
   const handleEdit = useCallback(() => {
     if (isEditing) {
@@ -150,7 +152,7 @@ function UserProfile() {
       <div className="B">
         <div>
           <Button
-            color="primary"
+            color={isEditing ? "primary" : "default"}
             onClick={handleEdit}
             startIcon={isEditing ? <SaveIcon /> : <EditIcon />}
           >
@@ -158,7 +160,7 @@ function UserProfile() {
           </Button>
           {isEditing && (
             <Button
-              color="primary"
+              color="secondary"
               onClick={handleCancel}
               startIcon={<ClearIcon />}
             >
@@ -168,9 +170,7 @@ function UserProfile() {
         </div>
         <div>
           <Link className="link" to="/settings">
-            <Button color="primary" startIcon={<SettingsIcon />}>
-              Settings
-            </Button>
+            <Button startIcon={<SettingsIcon />}>Settings</Button>
           </Link>
         </div>
       </div>
