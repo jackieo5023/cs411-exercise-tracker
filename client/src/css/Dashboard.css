@@ -1,7 +1,7 @@
 html,
 body,
 .grid-container {
-  height: 100vh;
+  height: 130vh;
   margin: 0;
 }
 
@@ -20,7 +20,7 @@ body,
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(4, minmax(150px, 330px));
+  grid-template-columns: repeat(4, minmax(150px, 340px));
   grid-template-rows: 22% 28% 5% 44%;
   gap: 1px 1px;
   grid-template-areas: "A B C D" "E E E E" "F F G G" "H H I I";
@@ -28,6 +28,7 @@ body,
 
 .dashboardgraphpanel {
   grid-area: E;
+  /* border: 1px solid red; */
 }
 
 .welcomepanel {
@@ -37,6 +38,7 @@ body,
 
 .rankingpanel {
   grid-area: B;
+  /* border: 1px solid red; */
 }
 
 .burnedcalpanel {
@@ -47,23 +49,27 @@ body,
   grid-area: D;
 }
 
-.F {
+.suggworkouttextpanel {
   grid-area: F;
+  /* border: 1px solid red; */
 }
 
-.G {
+.suggrecipetextpanel {
   grid-area: G;
+  /* border: 1px solid red; */
 }
 
-.H {
+.suggestedworkoutpanel {
   grid-area: H;
+  /* border: 1px solid red; */
 }
 
-.I {
+.suggestedrecipepanel {
   grid-area: I;
+  /* border: 1px solid red; */
 }
 .dashboardgraph {
-  margin-top: 3%;
+  margin-top: -3vw;
 }
 .welcome {
   display: table-cell;
@@ -167,4 +173,69 @@ body,
   font-size: 3.5vw;
   color: #ffffff;
   font-family: Lato;
+}
+.suggworkouttext {
+  display: block;
+  font-size: 2vw;
+  text-align: center;
+}
+.suggrecipetext {
+  display: block;
+  font-size: 2vw;
+  text-align: center;
+  /* padding-top: -2.5vw; */
+  /* margin-top: 5%; */
+  /* padding-top: 10%; */
+}
+
+.suggestedworkouts {
+  margin-left: 1.75vw;
+}
+
+.suggestedrecipes {
+  margin-left: 1.75vw;
+}
+
+/* Card type A: Workouts */
+.workoutcard {
+  text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-right: 4% !important;
+}
+
+.workoutcardcontent {
+  padding: 0px !important;
+  background-color: blue;
+  border-radius: 2vw;
+}
+.workoutcardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-top: 6vw;
+  padding-bottom: 6vw;
+}
+
+/* Card type B: Recipes */
+.recipecard {
+  text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-right: 4% !important;
+}
+
+.recipecardcontent {
+  padding: 0px !important;
+  background-color: #ff0000;
+  border-radius: 2vw;
+}
+.recipecardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-top: 6vw;
+  padding-bottom: 6vw;
 }

@@ -48,10 +48,40 @@ function MainDashboard() {
           </CardContent>
         </Card>
       </div>
-      <div className="F"></div>
-      <div className="G"></div>
-      <div className="H"></div>
-      <div className="I"></div>
+      <div className="suggworkouttextpanel">
+        <h4 className="suggworkouttext">Suggested Workouts:</h4>
+      </div>
+      <div className="suggrecipetextpanel">
+        <h4 className="suggrecipetext">Suggested Recipes:</h4>
+      </div>
+      <div className="suggestedworkoutpanel">
+        <div className="suggestedworkouts">
+          <Card className="workoutcard">
+            <CardContent className="workoutcardcontent">
+              <h4 className="workoutcardtext">Basic Weight Training</h4>
+            </CardContent>
+          </Card>
+          <Card className="workoutcard">
+            <CardContent className="workoutcardcontent">
+              <h4 className="workoutcardtext">Beginner's Cardio</h4>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+      <div className="suggestedrecipepanel">
+        <div className="suggestedrecipes">
+          <Card className="recipecard">
+            <CardContent className="recipecardcontent">
+              <h4 className="recipecardtext">Salmong with Edamame</h4>
+            </CardContent>
+          </Card>
+          <Card className="recipecard">
+            <CardContent className="recipecardcontent">
+              <h4 className="recipecardtext">Garden Chicken Burger</h4>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
