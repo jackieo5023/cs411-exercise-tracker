@@ -17,6 +17,7 @@ import "../css/Exercise.css";
 
 function ExercisePage() {
   const [type, setType] = useState("");
+  const [duration, setDuration] = useState("");
 
   const handleChange = (event) => {
     setType(event.target.value);
@@ -95,7 +96,7 @@ function ExercisePage() {
           <div class="workoutdropdown">
             <FormControl variant="outlined">
               <InputLabel id="demo-simple-select-outlined-label">
-                Workout Type
+                Workout Type *
               </InputLabel>
               <Select
                 className="dropdownbox"
@@ -104,7 +105,7 @@ function ExercisePage() {
                 required
                 value={type}
                 onChange={handleChange}
-                label="Workout Type"
+                label="Workout Type *"
                 style={{ width: "250px" }}
               >
                 <MenuItem value="">

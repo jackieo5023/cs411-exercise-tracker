@@ -86,7 +86,7 @@ function App() {
               <Route
                 path="/nutrition"
                 exact
-                render={() => showIfAuthed(<NutritionPage />)}
+                render={() => showIfNotAuthed(<NutritionPage />)}
               />
               <Route
                 path="/settings"
