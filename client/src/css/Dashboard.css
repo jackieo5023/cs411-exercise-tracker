@@ -10,8 +10,9 @@ body,
   position: relative;
 }
 
+/* Don't forget to remove */
+/* content: attr(class); */
 .grid-container *:after {
-  content: attr(class);
   position: absolute;
   top: 0;
   left: 0;
@@ -19,7 +20,7 @@ body,
 
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, minmax(150px, 330px));
   grid-template-rows: 22% 28% 5% 44%;
   gap: 1px 1px;
   grid-template-areas: "A B C D" "E E E E" "F F G G" "H H I I";
@@ -29,19 +30,20 @@ body,
   grid-area: E;
 }
 
-.A {
+.welcomepanel {
   grid-area: A;
+  text-align: center;
 }
 
-.B {
+.rankingpanel {
   grid-area: B;
 }
 
-.C {
+.burnedcalpanel {
   grid-area: C;
 }
 
-.D {
+.exercisepanel {
   grid-area: D;
 }
 
@@ -59,4 +61,105 @@ body,
 
 .I {
   grid-area: I;
+}
+
+.welcome {
+  display: table-cell;
+  margin-top: 25%;
+}
+.greeting {
+  display: block;
+  font-size: 4vw;
+}
+
+.loggingmsg {
+  display: block;
+  font-size: 2vw;
+}
+
+/* Card 1: Ranking */
+.rankingcard {
+  text-align: center;
+}
+
+.rankingcardcontent {
+  padding: 0px !important;
+  background-color: #13ce66;
+  border-radius: 30px;
+}
+
+.rankingcardcontent:last-child {
+  padding-bottom: 0px !important;
+}
+
+.rankingcardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+}
+
+.ranking {
+  display: block;
+  font-size: 3.5vw;
+  color: #ffffff;
+  font-family: Lato;
+}
+
+/* Card 2: Burned calories */
+.burnedcalcard {
+  text-align: center;
+}
+
+.burnedcalcardcontent {
+  padding: 0px !important;
+  background-color: #976dd0;
+  border-radius: 30px;
+}
+
+.burnedcalcardcontent:last-child {
+  padding-bottom: 0px !important;
+}
+
+.burnedcalcardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+}
+
+.burnedcal {
+  display: block;
+  font-size: 3.5vw;
+  color: #ffffff;
+  font-family: Lato;
+}
+
+/* Card 3: Exercise */
+.exercisecard {
+  text-align: center;
+}
+
+.exercisecardcontent {
+  padding: 0px !important;
+  background-color: #f95f62;
+  border-radius: 30px;
+}
+
+.exercisecardcontent:last-child {
+  padding-bottom: 0px !important;
+}
+
+.exercisecardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+}
+
+.exercise {
+  display: block;
+  font-size: 3.5vw;
+  color: #ffffff;
+  font-family: Lato;
 }
