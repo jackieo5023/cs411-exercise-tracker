@@ -54,7 +54,12 @@ function App() {
               <Route
                 path="/"
                 exact
-                render={() => showIfNotAuthed(<MainDashboard />)}
+                render={() => showIfAuthed(<MainDashboard />)}
+              />
+              <Route
+                path="/dashboard"
+                exact
+                render={() => showIfAuthed(<MainDashboard />)}
               />
               <Route
                 path="/login"
