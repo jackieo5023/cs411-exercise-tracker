@@ -27,7 +27,7 @@ function NavBar({ userId, setUserId }) {
         <span className="teamName">Team Seg_Fault</span>
       </div>
       <div className="content">
-        <NavLink className="routeLink" to="/dashboard">
+        <NavLink className="routeLink" to="/">
           <div className="barItem">
             <img src={dashboardIcon} alt="" className="icon" />
             <span className="sidebarlink">Dashboard</span>

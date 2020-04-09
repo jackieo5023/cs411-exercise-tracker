@@ -130,7 +130,6 @@ def login():
         return {"status": 400, "message": "Invalid body"}
 
     person_id = body.get("id")
-
     if not person_id:
         return {"status": 400, "message": "Missing field"}
 
@@ -144,6 +143,57 @@ def login():
     if person:
         return {"status": 200, "message": "Person found", "id": person_id}
     return {"status": 404, "message": "Person not found"}
+
+@app.route("/api/me", methods=['GET', 'PUT', 'DELETE'])
+def me():
+    body = request.get_json()
+    if not body:
+        return {"status": 400, "message": "Invalid body"}
+    
+    person_id = body.get("id")
+    if not person_id:
+        return {"status": 400, "message": "Missing field"}
+
+    if request.method == "GET":
+        result = db.session.execute(
+            "SELECT * FROM people WHERE id=:id",
+            {"id": person_id},
+        )
+        person = result.fetchone()
+        result.close()
+        
+        if person:
+            return {"status": 200, "message": "Person found", "person": dict(person.items())}
+        return {"status": 400, "message": "Person not found"}
+    elif request.method == "PUT":
+        firstName = body.get("firstName")
+        gender = body.get("gender")
+        weight = body.get("weight")
+        height = body.get("height")
+        age = body.get("age")
+        lastName = body.get("lastName")
+
+        if not firstName or not lastName or not gender or not weight or not height or not age:
+            return {"status": 400, "message": "Missing field"}
+        
+        result = db.session.execute(
+            "UPDATE people SET firstName=:firstName, gender=:gender, weight=:weight, height=:height, age=:age, lastName=:lastName WHERE id=:id",
+            {"firstName": firstName, "gender": gender, "weight": weight, "height": height, "age": age, "lastName": lastName, "id": person_id}
+        )
+        db.session.commit()
+
+        return {"status": 204, "message": "Person updated"}
+    elif request.method == "DELETE":
+        result = db.session.execute(
+            "DELETE FROM people WHERE id=:id",
+            {"id": person_id}
+        )
+        db.session.commit()
+
+        return {"status": 204, "message": "Person deleted"}
+    else:
+        return {"status": 400, "message": "Invalid request type"}
+    
 
 @app.route("/api/find_recipe", methods=['GET'])
 def find_recipe():
