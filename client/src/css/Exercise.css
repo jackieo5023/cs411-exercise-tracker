@@ -3,6 +3,7 @@ body,
 .grid-container {
   height: 110vh;
   margin: 0;
+  font-family: Lato;
 }
 .grid-container-ex * {
   /* border: 1px solid red; */

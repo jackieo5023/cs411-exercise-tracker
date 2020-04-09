@@ -3,6 +3,7 @@ body,
 .grid-container-dashboard {
   height: 130vh;
   margin: 0;
+  font-family: Lato;
 }
 
 .grid-container-dashboard * {
@@ -202,6 +203,7 @@ body,
   box-shadow: none !important;
   background-color: transparent !important;
   padding-right: 4% !important;
+  padding-top: 2vw;
 }
 
 .workoutcardcontent {
@@ -224,6 +226,7 @@ body,
   box-shadow: none !important;
   background-color: transparent !important;
   padding-right: 4% !important;
+  padding-top: 2vw;
 }
 
 .recipecardcontent {
