@@ -23,7 +23,7 @@ function ExerciseGraph() {
     },
     {
       year: "5/2",
-      ch: 75,
+      ch: 175,
     },
     {
       year: "5/3",

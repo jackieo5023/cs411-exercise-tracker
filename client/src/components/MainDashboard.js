@@ -9,7 +9,7 @@ import "../css/Dashboard.css";
 
 function MainDashboard() {
   return (
-    <div className="grid-container">
+    <div className="grid-container-dashboard">
       <div className="dashboardgraphpanel">
         <div className="dashboardgraph">
           <DashboardGraph></DashboardGraph>

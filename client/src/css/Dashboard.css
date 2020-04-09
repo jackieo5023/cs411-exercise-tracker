@@ -1,24 +1,24 @@
 html,
 body,
-.grid-container {
+.grid-container-dashboard {
   height: 130vh;
   margin: 0;
 }
 
-.grid-container * {
+.grid-container-dashboard * {
   /* border: 1px solid red; */
   position: relative;
 }
 
 /* Don't forget to remove */
 /* content: attr(class); */
-.grid-container *:after {
+.grid-container-dashboard *:after {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-.grid-container {
+.grid-container-dashboard {
   display: grid;
   grid-template-columns: repeat(4, minmax(150px, 340px));
   grid-template-rows: 22% 28% 5% 44%;
@@ -206,7 +206,7 @@ body,
 
 .workoutcardcontent {
   padding: 0px !important;
-  background-color: blue;
+  background-color: #15c8d1;
   border-radius: 2vw;
 }
 .workoutcardtext {
@@ -228,7 +228,7 @@ body,
 
 .recipecardcontent {
   padding: 0px !important;
-  background-color: #ff0000;
+  background-color: #8f150a;
   border-radius: 2vw;
 }
 .recipecardtext {

@@ -59,7 +59,7 @@ function App() {
               <Route
                 path="/dashboard"
                 exact
-                render={() => showIfAuthed(<MainDashboard />)}
+                render={() => showIfNotAuthed(<MainDashboard />)}
               />
               <Route
                 path="/login"
@@ -81,7 +81,7 @@ function App() {
               <Route
                 path="/exercise"
                 exact
-                render={() => showIfAuthed(<ExercisePage />)}
+                render={() => showIfNotAuthed(<ExercisePage />)}
               />
               <Route
                 path="/nutrition"
