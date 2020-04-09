@@ -57,6 +57,11 @@ function App() {
                 render={() => showIfAuthed(<MainDashboard />)}
               />
               <Route
+                path="/dashboard"
+                exact
+                render={() => showIfAuthed(<MainDashboard />)}
+              />
+              <Route
                 path="/login"
                 exact
                 render={() => showIfNotAuthed(<Login setUserId={setUserId} />)}

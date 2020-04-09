@@ -1,62 +1,244 @@
 html,
 body,
-.grid-container {
-  height: 100vh;
+.grid-container-dashboard {
+  height: 130vh;
   margin: 0;
+  font-family: Lato;
 }
 
-.grid-container * {
-  border: 1px solid red;
+.grid-container-dashboard * {
+  /* border: 1px solid red; */
   position: relative;
 }
 
-.grid-container *:after {
-  content: attr(class);
+/* Don't forget to remove */
+/* content: attr(class); */
+.grid-container-dashboard *:after {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-.grid-container {
+.grid-container-dashboard {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, minmax(150px, 340px));
   grid-template-rows: 22% 28% 5% 44%;
   gap: 1px 1px;
   grid-template-areas: "A B C D" "E E E E" "F F G G" "H H I I";
 }
 
-.E {
+.dashboardgraphpanel {
   grid-area: E;
+  /* border: 1px solid red; */
 }
 
-.A {
+.welcomepanel {
   grid-area: A;
+  text-align: center;
 }
 
-.B {
+.rankingpanel {
   grid-area: B;
+  /* border: 1px solid red; */
 }
 
-.C {
+.burnedcalpanel {
   grid-area: C;
 }
 
-.D {
+.exercisepanel {
   grid-area: D;
 }
 
-.F {
+.suggworkouttextpanel {
   grid-area: F;
+  /* border: 1px solid red; */
 }
 
-.G {
+.suggrecipetextpanel {
   grid-area: G;
+  /* border: 1px solid red; */
 }
 
-.H {
+.suggestedworkoutpanel {
   grid-area: H;
+  /* border: 1px solid red; */
 }
 
-.I {
+.suggestedrecipepanel {
   grid-area: I;
+  /* border: 1px solid red; */
+}
+.dashboardgraph {
+  margin-top: -3vw;
+}
+.welcome {
+  display: table-cell;
+  margin-top: 25%;
+}
+.greeting {
+  display: block;
+  font-size: 4vw;
+}
+
+.loggingmsg {
+  display: block;
+  font-size: 2vw;
+  margin-right: 3%;
+}
+
+/* Card 1: Ranking */
+.rankingcard {
+  text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-right: 4% !important;
+}
+
+.rankingcardcontent {
+  padding: 0px !important;
+  background-color: #13ce66;
+  border-radius: 2vw;
+}
+
+.rankingcardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+
+.ranking {
+  display: block;
+  font-size: 3.5vw;
+  color: #ffffff;
+  font-family: Lato;
+}
+
+/* Card 2: Burned calories */
+.burnedcalcard {
+  text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-right: 4% !important;
+}
+
+.burnedcalcardcontent {
+  padding: 0px !important;
+  background-color: #976dd0;
+  border-radius: 2vw;
+}
+
+.burnedcalcardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+
+.burnedcal {
+  display: block;
+  font-size: 3.5vw;
+  color: #ffffff;
+  font-family: Lato;
+}
+
+/* Card 3: Exercise */
+.exercisecard {
+  text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-right: 4% !important;
+}
+
+.exercisecardcontent {
+  padding: 0px !important;
+  background-color: #f95f62;
+  border-radius: 2vw;
+}
+.exercisecardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+
+.exercise {
+  display: block;
+  font-size: 3.5vw;
+  color: #ffffff;
+  font-family: Lato;
+}
+.suggworkouttext {
+  display: block;
+  font-size: 2vw;
+  text-align: center;
+}
+.suggrecipetext {
+  display: block;
+  font-size: 2vw;
+  text-align: center;
+  /* padding-top: -2.5vw; */
+  /* margin-top: 5%; */
+  /* padding-top: 10%; */
+}
+
+.suggestedworkouts {
+  margin-left: 1.75vw;
+}
+
+.suggestedrecipes {
+  margin-left: 1.75vw;
+}
+
+/* Card type A: Workouts */
+.workoutcard {
+  text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-right: 4% !important;
+  padding-top: 2vw;
+}
+
+.workoutcardcontent {
+  padding: 0px !important;
+  background-color: #15c8d1;
+  border-radius: 2vw;
+}
+.workoutcardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-top: 6vw;
+  padding-bottom: 6vw;
+}
+
+/* Card type B: Recipes */
+.recipecard {
+  text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-right: 4% !important;
+  padding-top: 2vw;
+}
+
+.recipecardcontent {
+  padding: 0px !important;
+  background-color: #8f150a;
+  border-radius: 2vw;
+}
+.recipecardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-top: 6vw;
+  padding-bottom: 6vw;
 }

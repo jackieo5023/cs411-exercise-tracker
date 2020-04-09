@@ -1,34 +1,193 @@
 html,
 body,
-.grid-container-nutrition {
-  height: 100vh;
+.grid-container {
+  height: 110vh;
   margin: 0;
+  font-family: Lato;
 }
-
-.grid-container-nutrition * {
-  border: 1px solid red;
+.grid-container-nu * {
+  /* border: 1px solid red; */
   position: relative;
 }
 
-.grid-container-nutrition *:after {
-  content: attr(class);
+.grid-container-nu *:after {
+  /* content: attr(class); */
   position: absolute;
   top: 0;
   left: 0;
 }
 
-.grid-container-nutrition {
+.grid-container-nu {
   display: grid;
-  grid-template-columns: 68% 32%;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 1px 1px;
-  grid-template-areas: "A B";
+  grid-template-areas: "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B";
 }
 
-.A {
+.A-nu {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "F F F" "E E E";
   grid-area: A;
 }
 
-.B {
+.E-nu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "I J" "K L";
+  grid-area: E;
+}
+
+.I-nu {
+  grid-area: I;
+}
+
+.J-nu {
+  grid-area: J;
+}
+
+.K-nu {
+  grid-area: K;
+}
+
+.L-nu {
+  grid-area: L;
+}
+
+.F-nu {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "H" "H" "H" "H" "G";
+  grid-area: F;
+}
+
+.suggrecipetextpanelnu {
+  grid-area: G;
+}
+
+.nutritiongraphpanel {
+  grid-area: H;
+}
+
+.B-nu {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "C" "D" "D";
   grid-area: B;
+}
+
+.nutritiontargetpanel {
+  grid-area: C;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  margin-top: 2vw;
+}
+
+.D-nu {
+  grid-area: D;
+  display: block;
+  text-align: center;
+}
+
+.nutritiongraph {
+  margin-top: 1vw;
+}
+
+/* Card: nutrition Target */
+.nutritiontargetcard {
+  text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-right: 8% !important;
+  padding-left: 8% !important;
+}
+
+.nutritiontargetcardcontent {
+  padding: 0px !important;
+  background-color: #d7734e;
+  border-radius: 2vw;
+}
+
+.nutritiontargetcardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+
+.nutritiontarget {
+  display: block;
+  font-size: 3.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-bottom: 3%;
+}
+
+.suggrecipetextnu {
+  display: block;
+  font-size: 2vw;
+  text-align: center;
+}
+
+.recipetextbox {
+  padding-top: 2vw;
+}
+
+.recipedropdown {
+  padding-top: 2vw;
+}
+
+.recipebuttongroup {
+  padding-top: 2vw;
+}
+.recipebutton {
+  background-color: transparent;
+  text-transform: none;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 6px 16px;
+  font-size: 0.875rem;
+  border: 0px;
+  min-width: 64px;
+  box-sizing: border-box;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-family: "Lato";
+  font-weight: 500;
+  line-height: 1.75;
+  border-radius: 4px;
+  letter-spacing: 0.02857em;
+}
+
+/* Card type: Recipes */
+.recipecardnu {
+  text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-right: 4% !important;
+}
+
+.recipecardcontentnu {
+  padding: 0px !important;
+  background-color: #8f150a;
+  border-radius: 2vw;
+}
+.recipecardtextnu {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-top: 6vw;
+  padding-bottom: 6vw;
 }

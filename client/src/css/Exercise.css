@@ -1,34 +1,194 @@
 html,
 body,
-.grid-container-exercise {
-  height: 100vh;
+.grid-container {
+  height: 110vh;
   margin: 0;
+  font-family: Lato;
 }
-
-.grid-container-exercise * {
-  border: 1px solid red;
+.grid-container-ex * {
+  /* border: 1px solid red; */
   position: relative;
 }
 
-.grid-container-exercise *:after {
-  content: attr(class);
+.grid-container-ex *:after {
+  /* content: attr(class); */
   position: absolute;
   top: 0;
   left: 0;
 }
 
-.grid-container-exercise {
+.grid-container-ex {
   display: grid;
-  grid-template-columns: 68% 32%;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 1px 1px;
-  grid-template-areas: "A B";
+  grid-template-areas: "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B" "A A A A B B";
 }
 
-.A {
+.A-ex {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "F F F" "E E E";
   grid-area: A;
 }
 
-.B {
+.E-ex {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "I J" "K L";
+  grid-area: E;
+}
+
+.I-ex {
+  grid-area: I;
+}
+
+.J-ex {
+  grid-area: J;
+}
+
+.K-ex {
+  grid-area: K;
+}
+
+.L-ex {
+  grid-area: L;
+}
+
+.F-ex {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "H" "H" "H" "H" "G";
+  grid-area: F;
+}
+
+.suggworkouttextpanelex {
+  grid-area: G;
+}
+
+.exercisegraphpanel {
+  grid-area: H;
+}
+
+.B-ex {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "C" "D" "D";
   grid-area: B;
+}
+
+.exercisetargetpanel {
+  grid-area: C;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  margin-top: 2vw;
+}
+
+.D-ex {
+  grid-area: D;
+  display: block;
+  text-align: center;
+}
+
+.exercisegraph {
+  margin-top: 1vw;
+}
+
+/* Card: Exercise Target */
+.exercisetargetcard {
+  text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-right: 8% !important;
+  padding-left: 8% !important;
+}
+
+.exercisetargetcardcontent {
+  padding: 0px !important;
+  background-color: #7b6dd7;
+  border-radius: 2vw;
+}
+
+.exercisetargetcardtext {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+
+.exercisetarget {
+  display: block;
+  font-size: 3.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-bottom: 3%;
+}
+
+.suggworkouttextex {
+  display: block;
+  font-size: 2vw;
+  text-align: center;
+  margin-top: 2vw;
+}
+
+.workouttextbox {
+  padding-top: 3vw;
+}
+
+.workoutdropdown {
+  padding-top: 3vw;
+}
+
+.workoutbuttongroup {
+  padding-top: 3vw;
+}
+.workoutbutton {
+  background-color: transparent;
+  text-transform: none;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 6px 16px;
+  font-size: 0.875rem;
+  border: 0px;
+  min-width: 64px;
+  box-sizing: border-box;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-family: "Lato";
+  font-weight: 500;
+  line-height: 1.75;
+  border-radius: 4px;
+  letter-spacing: 0.02857em;
+}
+
+/* Card type: Workouts */
+.workoutcardex {
+  text-align: center;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding-right: 4% !important;
+}
+
+.workoutcardcontentex {
+  padding: 0px !important;
+  background-color: #15c8d1;
+  border-radius: 2vw;
+}
+.workoutcardtextex {
+  display: block;
+  font-size: 1.5vw;
+  color: #ffffff;
+  font-family: Lato;
+  padding-top: 6vw;
+  padding-bottom: 6vw;
 }
