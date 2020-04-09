@@ -63,6 +63,7 @@ body,
   grid-area: I;
 }
 .dashboardgraph {
+  margin-top: 3%;
 }
 .welcome {
   display: table-cell;
@@ -84,23 +85,22 @@ body,
   text-align: center;
   box-shadow: none !important;
   background-color: transparent !important;
+  padding-right: 4% !important;
 }
 
 .rankingcardcontent {
   padding: 0px !important;
   background-color: #13ce66;
-  border-radius: 30px;
-}
-
-.rankingcardcontent:last-child {
-  padding-bottom: 0px !important;
+  border-radius: 2vw;
 }
 
 .rankingcardtext {
   display: block;
-  font-size: 1vw;
+  font-size: 1.5vw;
   color: #ffffff;
   font-family: Lato;
+  padding-top: 3%;
+  padding-bottom: 3%;
 }
 
 .ranking {
@@ -115,16 +115,13 @@ body,
   text-align: center;
   box-shadow: none !important;
   background-color: transparent !important;
+  padding-right: 4% !important;
 }
 
 .burnedcalcardcontent {
   padding: 0px !important;
   background-color: #976dd0;
-  border-radius: 30px;
-}
-
-.burnedcalcardcontent:last-child {
-  padding-bottom: 0px !important;
+  border-radius: 2vw;
 }
 
 .burnedcalcardtext {
@@ -132,6 +129,8 @@ body,
   font-size: 1.5vw;
   color: #ffffff;
   font-family: Lato;
+  padding-top: 3%;
+  padding-bottom: 3%;
 }
 
 .burnedcal {
@@ -146,23 +145,21 @@ body,
   text-align: center;
   box-shadow: none !important;
   background-color: transparent !important;
+  padding-right: 4% !important;
 }
 
 .exercisecardcontent {
   padding: 0px !important;
   background-color: #f95f62;
-  border-radius: 30px;
+  border-radius: 2vw;
 }
-
-.exercisecardcontent:last-child {
-  padding-bottom: 0px !important;
-}
-
 .exercisecardtext {
   display: block;
   font-size: 1.5vw;
   color: #ffffff;
   font-family: Lato;
+  padding-top: 3%;
+  padding-bottom: 3%;
 }
 
 .exercise {
