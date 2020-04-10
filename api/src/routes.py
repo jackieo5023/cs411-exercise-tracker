@@ -4,6 +4,8 @@ from sqlalchemy.exc import IntegrityError
 from . import mongo, db
 import pymongo
 
+mongo_string = "mongodb://test:cs411@cluster0-shard-00-00-llf4k.mongodb.net:27017,cluster0-shard-00-01-llf4k.mongodb.net:27017,cluster0-shard-00-02-llf4k.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"
+
 @app.route("/api")
 def home():
     return "Hello, world!"
@@ -14,7 +16,7 @@ def insert_test():
     # This just inserts a new entry into the collection "testdb", document "test" where the name of the entry is "test"
     # I just wanted to provide a basic example and also make sure this worked
 
-    client = pymongo.MongoClient("mongodb://test:cs411@cluster0-shard-00-00-llf4k.mongodb.net:27017,cluster0-shard-00-01-llf4k.mongodb.net:27017,cluster0-shard-00-02-llf4k.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
+    client = mongo.cx
     db = client.test
 
     x = db.test.insert_one({"name": "test"})
@@ -22,11 +24,11 @@ def insert_test():
 
 @app.route("/api/workouts_reload", methods=['POST'])
 def workouts_reload():
-    client = pymongo.MongoClient("mongodb://test:cs411@cluster0-shard-00-00-llf4k.mongodb.net:27017,cluster0-shard-00-01-llf4k.mongodb.net:27017,cluster0-shard-00-02-llf4k.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
+    client = mongo.cx
     body = request.get_json()
     if not body:
         return {"status": 400, "message": "Invalid body"}
-    reload_db = body.get("reload_db")
+    reload_db = body.get("reload_db") == 'true'
     if (reload_db == True):
         db = client.test
         try:
@@ -58,7 +60,7 @@ def workouts_reload():
 
 @app.route("/api/workouts_insert", methods=['POST'])
 def workouts_insert():
-    client = pymongo.MongoClient("mongodb://test:cs411@cluster0-shard-00-00-llf4k.mongodb.net:27017,cluster0-shard-00-01-llf4k.mongodb.net:27017,cluster0-shard-00-02-llf4k.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
+    client = mongo.cx
     body = request.get_json()
     if not body:
         return {"status": 400, "message": "Invalid body"}
@@ -83,7 +85,7 @@ def workouts_delete():
     workoutName = body.get("workoutName")
     if not workoutName:
         return {"status": 400, "message": "Missing field"}
-    client = pymongo.MongoClient("mongodb://test:cs411@cluster0-shard-00-00-llf4k.mongodb.net:27017,cluster0-shard-00-01-llf4k.mongodb.net:27017,cluster0-shard-00-02-llf4k.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
+    client = mongo.cx
     db = client.test
     try:
         x = db.workouts.delete_one({"type":workoutName})
@@ -148,7 +150,6 @@ def login():
 def me():
     if request.method == "GET":
         person_id = request.headers.get("id")
-        print(request.headers)
         if not person_id:
             return {"status": 400, "message": "Missing header"}
 
@@ -199,6 +200,36 @@ def me():
     else:
         return {"status": 400, "message": "Invalid request type"}
     
+@app.route("/api/me/workout", methods=['GET', 'POST', 'DELETE'])
+def workouts():
+    client = mongo.cx
+    if request.method == "GET":
+        is_completed = request.args.get('completed') == 'true'
+        
+        if is_completed:
+            person_id = request.headers.get("id")
+            if not person_id:
+                return {"status": 400, "message": "Missing header"}
+
+            result = db.session.execute(
+                "SELECT * FROM CompletedWorkout WHERE personId=:personId",
+                {"personId": person_id},
+            )
+            completed_workouts = result.fetchall()
+            result.close()
+            completed_workouts = [dict(workout.items()) for workout in completed_workouts]
+
+            workouts = client.test.workouts.find({"_id": {"$in": [workout.workoutId for workout in completed_workouts]}}, {"type": 1, "METs": 1, "_id": 0})
+            if workouts:
+                return {"status": 200, "message": "Workouts found", "workouts": list(workouts)}
+            return {"status": 400, "message": "Workouts not found"}
+        else:
+            workouts = client.test.workouts.find({}, {"type": 1, "METs": 1, "_id": 0})
+
+            return {"status": 200, "workouts": list(workouts)}
+        
+    return "hi"
+
 
 @app.route("/api/find_recipe", methods=['GET'])
 def find_recipe():
