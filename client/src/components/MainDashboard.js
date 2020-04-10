@@ -104,7 +104,7 @@ function MainDashboard({ userId }) {
         <div className="suggestedrecipes">
           <Card className="recipecard">
             <CardContent className="recipecardcontent">
-              <h4 className="recipecardtext">Salmong with Edamame</h4>
+              <h4 className="recipecardtext">Salmon with Edamame</h4>
             </CardContent>
           </Card>
           <Card className="recipecard">
