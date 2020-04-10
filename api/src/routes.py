@@ -146,15 +146,12 @@ def login():
 
 @app.route("/api/me", methods=['GET', 'PUT', 'DELETE'])
 def me():
-    body = request.get_json()
-    if not body:
-        return {"status": 400, "message": "Invalid body"}
-    
-    person_id = body.get("id")
-    if not person_id:
-        return {"status": 400, "message": "Missing field"}
-
     if request.method == "GET":
+        person_id = request.headers.get("id")
+        print(request.headers)
+        if not person_id:
+            return {"status": 400, "message": "Missing header"}
+
         result = db.session.execute(
             "SELECT * FROM people WHERE id=:id",
             {"id": person_id},
@@ -166,14 +163,18 @@ def me():
             return {"status": 200, "message": "Person found", "person": dict(person.items())}
         return {"status": 400, "message": "Person not found"}
     elif request.method == "PUT":
+        body = request.get_json()
+        if not body:
+            return {"status": 400, "message": "Invalid body"}
+        
+        person_id = body.get("id")
         firstName = body.get("firstName")
         gender = body.get("gender")
         weight = body.get("weight")
         height = body.get("height")
         age = body.get("age")
         lastName = body.get("lastName")
-
-        if not firstName or not lastName or not gender or not weight or not height or not age:
+        if not person_id or not firstName or not lastName or not gender or not weight or not height or not age:
             return {"status": 400, "message": "Missing field"}
         
         result = db.session.execute(
@@ -184,6 +185,10 @@ def me():
 
         return {"status": 204, "message": "Person updated"}
     elif request.method == "DELETE":
+        person_id = request.headers.get("id")
+        if not person_id:
+            return {"status": 400, "message": "Missing header"}
+
         result = db.session.execute(
             "DELETE FROM people WHERE id=:id",
             {"id": person_id}

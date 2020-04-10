@@ -71,7 +71,9 @@ function App() {
               <Route
                 path="/profile"
                 exact
-                render={(props) => showIfAuthed(<UserProfile {...props} />)}
+                render={(props) =>
+                  showIfAuthed(<UserProfile {...props} userId={userId} />)
+                }
               />
               <Route
                 path="/exercise"
@@ -86,7 +88,11 @@ function App() {
               <Route
                 path="/settings"
                 exact
-                render={() => showIfAuthed(<SettingsPage />)}
+                render={() =>
+                  showIfAuthed(
+                    <SettingsPage userId={userId} setUserId={setUserId} />
+                  )
+                }
               />
               <Route
                 path="/dbgraph"
