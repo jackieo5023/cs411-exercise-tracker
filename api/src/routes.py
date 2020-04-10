@@ -1,5 +1,6 @@
 from flask import current_app as app, request
 from bson.json_util import dumps
+from bson.objectid import ObjectId
 from sqlalchemy.exc import IntegrityError
 from . import mongo, db
 import pymongo
@@ -203,14 +204,15 @@ def me():
 @app.route("/api/me/workout", methods=['GET', 'POST', 'DELETE'])
 def workouts():
     client = mongo.cx
+
+    person_id = request.headers.get("id")
+    if not person_id:
+        return {"status": 400, "message": "Missing header"}
+
     if request.method == "GET":
         is_completed = request.args.get('completed') == 'true'
         
         if is_completed:
-            person_id = request.headers.get("id")
-            if not person_id:
-                return {"status": 400, "message": "Missing header"}
-
             result = db.session.execute(
                 "SELECT * FROM CompletedWorkout WHERE personId=:personId",
                 {"personId": person_id},
@@ -219,16 +221,56 @@ def workouts():
             result.close()
             completed_workouts = [dict(workout.items()) for workout in completed_workouts]
 
-            workouts = client.test.workouts.find({"_id": {"$in": [workout.workoutId for workout in completed_workouts]}}, {"type": 1, "METs": 1, "_id": 0})
+            workouts = client.test.workouts.find({"_id": {"$in": [ObjectId(workout['workoutId']) for workout in completed_workouts]}})
+            final_workouts = []
+            for workout in workouts:
+                temp = workout
+                temp["_id"] = str(workout["_id"])
+                final_workouts.append(temp)
             if workouts:
-                return {"status": 200, "message": "Workouts found", "workouts": list(workouts)}
+                return {"status": 200, "message": "Workouts found", "workouts": final_workouts}
             return {"status": 400, "message": "Workouts not found"}
         else:
             workouts = client.test.workouts.find({}, {"type": 1, "METs": 1, "_id": 0})
 
             return {"status": 200, "workouts": list(workouts)}
+    elif request.method == "POST":
+        body = request.get_json()
+        if not body:
+            return {"status": 400, "message": "Invalid body"}
         
-    return "hi"
+        type_workout = body.get("type")
+        METs = body.get("METs")
+        if not type_workout or not METs:
+            return {"status": 400, "message": "Missing field"}
+
+        inserted = client.test.workouts.insert_one({"type": type_workout,"METs": METs})
+        result = db.session.execute(
+            "INSERT INTO CompletedWorkout (personId, workoutId) VALUES (:personId, :workoutId)",
+            {"personId": person_id, "workoutId": str(inserted.inserted_id)},
+        )
+        db.session.commit()
+
+        return {"status": 201, "message": "Workout added"}
+    elif request.method == "DELETE":
+        body = request.get_json()
+        if not body:
+            return {"status": 400, "message": "Invalid body"}
+        
+        workoutId = body.get("workoutId")
+        if not workoutId:
+            return {"status": 400, "message": "Missing field"}
+        
+        result = db.session.execute(
+            "DELETE FROM CompletedWorkout WHERE personId=:personId AND workoutId=:workoutId",
+            {"personId": person_id, "workoutId": workoutId}
+        )
+        db.session.commit()
+        client.test.workouts.delete_one({"_id": ObjectId(workoutId)})
+
+        return {"status": 204, "message": "Workout deleted"}
+    else:
+        return {"status": 400, "message": "Invalid request type"}
 
 
 @app.route("/api/find_recipe", methods=['GET'])

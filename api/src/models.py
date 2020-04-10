@@ -48,7 +48,7 @@ class CompletedWorkout(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     personId = db.Column(db.Integer, db.ForeignKey('people.id'))
     person = db.relationship('people')
-    workoutId = db.Column(db.Integer, nullable=False)
+    workoutId = db.Column(db.String(255), nullable=False)
 
     def __init__(self, personId, workoutId):
         self.personId = personId
