@@ -231,9 +231,14 @@ def workouts():
                 return {"status": 200, "message": "Workouts found", "workouts": final_workouts}
             return {"status": 400, "message": "Workouts not found"}
         else:
-            workouts = client.test.workouts.find({}, {"type": 1, "METs": 1, "_id": 0})
+            workouts = client.test.workouts.find({}, {"type": 1, "METs": 1})
+            final_workouts = []
+            for workout in workouts:
+                temp = workout
+                temp["_id"] = str(workout["_id"])
+                final_workouts.append(temp)
 
-            return {"status": 200, "workouts": list(workouts)}
+            return {"status": 200, "workouts": final_workouts}
     elif request.method == "POST":
         body = request.get_json()
         if not body:

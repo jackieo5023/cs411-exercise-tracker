@@ -6,6 +6,9 @@ import {
   InputAdornment,
   MenuItem,
   TextField,
+  List,
+  ListItem,
+  ListItemText,
 } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import EditIcon from "@material-ui/icons/Edit";
@@ -15,7 +18,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 //Stylesheet
 import "../css/Profile.css";
 
-import { updatePerson, getPerson } from "../utils/api";
+import { updatePerson, getPerson, getCompletedWorkouts } from "../utils/api";
 
 function UserProfile({ location, userId }) {
   const [profile, setProfile] = useState({
@@ -26,6 +29,7 @@ function UserProfile({ location, userId }) {
     weight: 0,
     height: 0,
   });
+  const [workouts, setWorkouts] = useState([]);
   const [editingProfile, setEditingProfile] = useState(profile);
   const [isEditing, setIsEditing] = useState(
     location.state ? location.state.isEditing : false
@@ -37,6 +41,11 @@ function UserProfile({ location, userId }) {
       if (response.status === 200) {
         setProfile(response.person);
         setEditingProfile(response.person);
+      }
+
+      const workoutsResponse = await getCompletedWorkouts({ id: userId });
+      if (workoutsResponse.status === 200) {
+        setWorkouts(workoutsResponse.workouts);
       }
     }
     fetchData();
@@ -160,6 +169,21 @@ function UserProfile({ location, userId }) {
               })
             }
           />
+        </div>
+        <div className="row">
+          <List>
+            Past Workouts
+            {workouts.map((workout) => {
+              return (
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary={workout.type}
+                    secondary={<p>{workout.METs}</p>}
+                  />
+                </ListItem>
+              );
+            })}
+          </List>
         </div>
       </div>
       <div className="B">

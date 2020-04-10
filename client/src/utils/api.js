@@ -26,7 +26,6 @@ export const register = (body) => {
 };
 
 export const getPerson = (body) => {
-  console.log(body);
   return fetch(`${BASE_URL}/me`, {
     method: "GET",
     headers: {
@@ -53,5 +52,37 @@ export const deletePerson = (body) => {
       "Content-Type": "application/json",
       id: body.id,
     },
+  }).then((res) => res.json());
+};
+
+export const getCompletedWorkouts = (body) => {
+  return fetch(`${BASE_URL}/me/workout?completed=true`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      id: body.id,
+    },
+  }).then((res) => res.json());
+};
+
+export const getSuggestedWorkouts = (body) => {
+  return fetch(`${BASE_URL}/me/workout?completed=false`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      id: body.id,
+    },
+  }).then((res) => res.json());
+};
+
+export const addCompletedWorkout = (body) => {
+  const { id, ...rest } = body;
+  return fetch(`${BASE_URL}/me/workout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      id: id,
+    },
+    body: JSON.stringify(rest),
   }).then((res) => res.json());
 };
