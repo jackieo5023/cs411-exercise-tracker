@@ -191,6 +191,10 @@ def me():
         if not person_id:
             return {"status": 400, "message": "Missing header"}
 
+        db.session.execute(
+            "DELETE FROM CompletedWorkout WHERE personId=:personId",
+            {"personId": person_id}
+        )
         result = db.session.execute(
             "DELETE FROM people WHERE id=:id",
             {"id": person_id}
