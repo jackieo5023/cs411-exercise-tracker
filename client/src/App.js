@@ -54,12 +54,7 @@ function App() {
               <Route
                 path="/"
                 exact
-                render={() => showIfAuthed(<MainDashboard />)}
-              />
-              <Route
-                path="/dashboard"
-                exact
-                render={() => showIfAuthed(<MainDashboard />)}
+                render={() => showIfAuthed(<MainDashboard userId={userId} />)}
               />
               <Route
                 path="/login"
@@ -76,7 +71,9 @@ function App() {
               <Route
                 path="/profile"
                 exact
-                render={(props) => showIfAuthed(<UserProfile {...props} />)}
+                render={(props) =>
+                  showIfAuthed(<UserProfile {...props} userId={userId} />)
+                }
               />
               <Route
                 path="/exercise"
@@ -91,7 +88,11 @@ function App() {
               <Route
                 path="/settings"
                 exact
-                render={() => showIfAuthed(<SettingsPage />)}
+                render={() =>
+                  showIfAuthed(
+                    <SettingsPage userId={userId} setUserId={setUserId} />
+                  )
+                }
               />
               <Route
                 path="/dbgraph"

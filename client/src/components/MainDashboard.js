@@ -1,13 +1,29 @@
-import React from "react";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
+import React, { useEffect, useState, useCallback } from "react";
+import { Card, CardActions, CardContent, Button } from "@material-ui/core";
+
 import DashboardGraph from "./DashboardGraph";
 
 //Stylesheet
 import "../css/Dashboard.css";
+import { getSuggestedWorkouts, addCompletedWorkout } from "../utils/api";
 
-function MainDashboard() {
+function MainDashboard({ userId }) {
+  const [suggestedWorkouts, setSuggestedWorkouts] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getSuggestedWorkouts({ id: userId });
+      if (response.status === 200) {
+        setSuggestedWorkouts(response.workouts);
+      }
+    }
+    fetchData();
+  }, [userId]);
+
+  const handleAddSuggestedWorkout = useCallback(async (i) => {
+    await addCompletedWorkout({ id: userId, ...suggestedWorkouts[i] });
+  });
+
   return (
     <div className="grid-container-dashboard">
       <div className="dashboardgraphpanel">
@@ -56,16 +72,32 @@ function MainDashboard() {
       </div>
       <div className="suggestedworkoutpanel">
         <div className="suggestedworkouts">
-          <Card className="workoutcard">
-            <CardContent className="workoutcardcontent">
-              <h4 className="workoutcardtext">Basic Weight Training</h4>
-            </CardContent>
-          </Card>
-          <Card className="workoutcard">
-            <CardContent className="workoutcardcontent">
-              <h4 className="workoutcardtext">Beginner's Cardio</h4>
-            </CardContent>
-          </Card>
+          {suggestedWorkouts[0] && (
+            <Card className="workoutcard">
+              <CardContent className="workoutcardcontent">
+                <div className="workoutcardtext">
+                  <h4>Type: {suggestedWorkouts[0].type}</h4>
+                  <h4>METs: {suggestedWorkouts[0].METs}</h4>
+                  <Button onClick={() => handleAddSuggestedWorkout(0)}>
+                    Add to Completed Workouts
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+          {suggestedWorkouts[1] && (
+            <Card className="workoutcard">
+              <CardContent className="workoutcardcontent">
+                <div className="workoutcardtext">
+                  <h4>Type: {suggestedWorkouts[1].type}</h4>
+                  <h4>METs: {suggestedWorkouts[1].METs}</h4>
+                  <Button onClick={() => handleAddSuggestedWorkout(1)}>
+                    Add to Completed Workouts
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
       <div className="suggestedrecipepanel">

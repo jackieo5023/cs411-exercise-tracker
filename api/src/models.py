@@ -7,10 +7,12 @@ class Gender(enum.Enum):
     FEMALE = "Female"
     MALE = "Male"
     OTHER = "Other"
+
 eats = db.Table('eats',
-        db.Column('id', db.Integer, db.ForeignKey('Person.id'), primary_key=True),
+        db.Column('id', db.Integer, db.ForeignKey('people.id'), primary_key=True),
         db.Column('recipeId', db.Integer, db.ForeignKey('Recipe.recipeId'), primary_key=True)
     )
+
 class Person(db.Model):
     """Model for user accounts"""
     # We will need to add more things to represent the relationships
@@ -34,10 +36,26 @@ class Person(db.Model):
         self.age = age
 
     def __repr__(self):
-        return "<Person {}>".format(self.publicId)
+        return "<Person {}>".format(self.id)
 
     # Recipe(recipeId: int, recipeName: string, protein: int,
     # vitamin: float[an array of volume of different kinds of vitamin], calories: float)
+
+class CompletedWorkout(db.Model):
+    """Model to link a user to a completed workout"""
+
+    __tablename__ = 'CompletedWorkout'
+    id = db.Column(db.Integer, primary_key=True)
+    personId = db.Column(db.Integer, db.ForeignKey('people.id'))
+    person = db.relationship('people')
+    workoutId = db.Column(db.String(255), nullable=False)
+
+    def __init__(self, personId, workoutId):
+        self.personId = personId
+        self.workoutId = workoutId
+
+    def __repr__(self):
+        return "<CompletedWorkout {}>".format(self.id)
 
 class Recipe(db.Model):
     """Model for Recipes"""
@@ -47,13 +65,13 @@ class Recipe(db.Model):
     recipeId = db.Column(db.Integer, primary_key=True)
     recipeName = db.Column(db.String(255), nullable=False)
     protein = db.Column(db.Integer, nullable=False)
-    vitamin = db.Column(db.ARRAY(db.Float), nullable=False)
+    # vitamin = db.Column(db.ARRAY(db.Float), nullable=False) mysql does not support an array
     calories = db.Column(db.Integer,nullable = False)
 
     def __init__(self,name,protein,vitamin,calories):
         self.recipeName - name
         self.protein = protein
-        self.vitamin = vitamin
+        # self.vitamin = vitamin
         self.calories = calories
         
     def __repr__(self):

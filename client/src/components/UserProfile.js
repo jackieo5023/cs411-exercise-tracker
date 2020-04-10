@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -6,6 +6,9 @@ import {
   InputAdornment,
   MenuItem,
   TextField,
+  List,
+  ListItem,
+  ListItemText,
 } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import EditIcon from "@material-ui/icons/Edit";
@@ -15,31 +18,50 @@ import SettingsIcon from "@material-ui/icons/Settings";
 //Stylesheet
 import "../css/Profile.css";
 
-function UserProfile({ location }) {
-  // TODO: populate data from profile api call
+import { updatePerson, getPerson, getCompletedWorkouts } from "../utils/api";
+
+function UserProfile({ location, userId }) {
   const [profile, setProfile] = useState({
-    firstName: "Jackie",
-    lastName: "Osborn",
-    gender: "Female",
-    age: 20,
-    weight: 130,
-    height: 70,
+    firstName: "",
+    lastName: "",
+    gender: "FEMALE",
+    age: 0,
+    weight: 0,
+    height: 0,
   });
+  const [workouts, setWorkouts] = useState([]);
   const [editingProfile, setEditingProfile] = useState(profile);
   const [isEditing, setIsEditing] = useState(
     location.state ? location.state.isEditing : false
   );
 
-  const handleEdit = useCallback(() => {
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getPerson({ id: userId });
+      if (response.status === 200) {
+        setProfile(response.person);
+        setEditingProfile(response.person);
+      }
+
+      const workoutsResponse = await getCompletedWorkouts({ id: userId });
+      if (workoutsResponse.status === 200) {
+        setWorkouts(workoutsResponse.workouts);
+      }
+    }
+    fetchData();
+  }, [userId]);
+
+  const handleEdit = useCallback(async () => {
     if (isEditing) {
-      // TODO: call api to save profile, if error set error message
+      // TODO: if error set error message
+      await updatePerson({ ...editingProfile, id: userId });
       setProfile(editingProfile);
       setIsEditing(false);
     } else {
       setEditingProfile(profile);
       setIsEditing(true);
     }
-  }, [editingProfile, isEditing, profile]);
+  }, [editingProfile, isEditing, profile, userId]);
 
   const handleCancel = useCallback(() => {
     setEditingProfile(profile);
@@ -105,13 +127,13 @@ function UserProfile({ location }) {
               })
             }
           >
-            <MenuItem key="male" value="Male">
+            <MenuItem key="male" value="MALE">
               Male
             </MenuItem>
-            <MenuItem key="female" value="Female">
+            <MenuItem key="female" value="FEMALE">
               Female
             </MenuItem>
-            <MenuItem key="other" value="Other">
+            <MenuItem key="other" value="OTHER">
               Other
             </MenuItem>
           </TextField>
@@ -147,6 +169,21 @@ function UserProfile({ location }) {
               })
             }
           />
+        </div>
+        <div className="row">
+          <List>
+            Past Workouts
+            {workouts.map((workout) => {
+              return (
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary={workout.type}
+                    secondary={<p>{workout.METs}</p>}
+                  />
+                </ListItem>
+              );
+            })}
+          </List>
         </div>
       </div>
       <div className="B">
