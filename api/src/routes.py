@@ -390,23 +390,27 @@ def recommend():
     result_h.close()
     BMI = 703 * weight / (height*height)
     recommend_workouts = []
+    client = mongo.cx
     if BMI < 18.5:
-        recommend_workouts.append["Gardening"]
-        recommend_workouts.append["Video-exercise (DVD/TV) cardio"]
-        recommend_workouts.append["Exercise/activity-based video game"]
-        recommend_workouts.append["Hatha Yoga"]
+        workouts = client.test.workouts.find({"METs": {'$lte': 5.0}},{"type":1,"METs":0,"_id":0})
+        for workout in workouts:
+            temp = str(workout)
+            recommend_workouts.append(temp)
     elif BMI < 25:
-        recommend_workouts.append["Basketball"]
-        recommend_workouts.append["Tennis"]
-        recommend_workouts.append["Jumping rope"]
-        recommend_workouts.append["Hiking"]
+        workouts = client.test.workouts.find({"METs": {'$gte': 8.0,'$lte': 15.0}},{"type":1,"METs":0,"_id":0})
+        for workout in workouts:
+            temp = str(workout)
+            recommend_workouts.append(temp)
     elif BMI < 30:
-        recommend_workouts.append["Running"]
-        recommend_workouts.append["Stationary cycling"]
-        recommend_workouts.append["Swimming laps"]
-        recommend_workouts.append["Yarkwork"]
+        workouts = client.test.workouts.find({"METs": {'$gte': 5.1,'$lte': 7.5}},{"type":1,"METs":0,"_id":0})
+        for workout in workouts:
+            temp = str(workout)
+            recommend_workouts.append(temp)
     else:
-        recommend_workouts.append["Walking for exercise"]
+        workouts = client.test.workouts.find({"METs": {'$lte': 5.0}},{"type":1,"METs":0,"_id":0})
+        for workout in workouts:
+            temp = str(workout)
+            recommend_workouts.append(temp)
 
     return {"status": 200, "message": "Workouts recommended", "workouts": recommend_workouts}
 
