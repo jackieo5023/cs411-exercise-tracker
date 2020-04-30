@@ -23,7 +23,7 @@ class Person(db.Model):
     lastName = db.Column(db.String(255), nullable=False)
     gender = db.Column(db.Enum(Gender), nullable=False)
     weight = db.Column(db.Integer, nullable=False)
-    height = db.Column(db.Float, nullable=False)
+    height = db.Column(db.Integer, nullable=False)
     age = db.Column(db.Integer, nullable=False)
     eats = db.relationship('Recipe', secondary=eats, lazy='subquery',
                            backref=db.backref('people', lazy=True))

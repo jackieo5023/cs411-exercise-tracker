@@ -388,7 +388,7 @@ def recommend():
     )
     height = result_h.fetchone()
     result_h.close()
-    BMI = weight / (height*height) # weight(KG), height(M)
+    BMI = 703 * weight / (height*height)
     recommend_workouts = []
     if BMI < 18.5:
         recommend_workouts.append["Gardening"]
