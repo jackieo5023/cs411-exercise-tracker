@@ -291,7 +291,7 @@ def find_recipe():
     if not recipeName:
         return {"status": 400, "message": "Missing field"}
     result = db.session.execute(
-        "SELECT protein,vitamin,calories FROM Recipe WHERE name =:recipeName",
+        "SELECT protein,calories FROM Recipe WHERE name =:recipeName",
         {"name": recipeName},
     )
     Facts = result.fetchone()
@@ -308,15 +308,15 @@ def insert_recipe():
         return {"status": 400, "message": "Invalid body"}
     name = body.get("recipeName")
     protein = body.get("protein")
-    vitamin = body.get("vitamin")
+    #vitamin = body.get("vitamin")
     calories = body.get("calories")
 
-    if not name or not protein or not vitamin or not calories:
+    if not name or not protein or not calories:
         return {"status": 400, "message": "Missing field"}
     try:
         result = db.session.execute(
-            "INSERT INTO Recipe (name, protein, vitamin, calories) VALUES (:name, :protein, :vitamin, :calories)",
-            {"name": name, "protein": protein, "vitamin": vitamin, "calories": calories},
+            "INSERT INTO Recipe (name, protein, calories) VALUES (:name, :protein, :calories)",
+            {"name": name, "protein": protein, "calories": calories},
         )
         db.session.commit()
     except IntegrityError:
@@ -348,3 +348,80 @@ def delete_recipe():
     if not result:
         return {"status": 404, "message": "Recipe not found"}
     return {"status": 201, "message": "Recipe deleted"}
+@app.route("/api/insert_completed_workouts", methods=['POST'])
+def insert_completed_workouts():
+    body = request.get_json()
+    if not body:
+        return {"status": 400, "message": "Invalid body"}
+    personid = body.get("personId")
+    workoutid = body.get("workoutId")
+    id = body.get("id")
+    if not personid or not workoutid or not id:
+        return {"status": 400, "message": "Missing field"}
+    try:
+        result = db.session.execute(
+            "INSERT INTO Completedworkout (id, personId, workoutId) VALUES (:id, :personId, :workoutId)",
+            {"id": id, "personId": personid, "workoutId": workoutid},
+        )
+        db.session.commit()
+    except IntegrityError:
+        return {"status": 409, "message": "Workout is already completed"}
+    except Exception as e:
+        return {"status": 500, "message": "Something went wrong"}
+
+    ins_id = db.session.execute("SELECT LAST_INSERT_ID() as id").fetchone()
+    return {"status": 201, "message": "Completed workout added", "id": ins_id["id"]}
+@app.route("/api/recommend", methods=['POST'])
+def recommend():
+    id = request.headers.get("id")
+    if not id:
+        return {"status": 400, "message": "Missing header"}
+    result_w = db.session.execute(
+        "SELECT weight FROM Person WHERE id =:id",
+        {"id": id},
+    )
+    weight = result_w.fetchone()
+    result_w.close()
+    result_h = db.session.execute(
+        "SELECT height FROM Person WHERE id =:id",
+        {"id": id},
+    )
+    height = result_h.fetchone()
+    result_h.close()
+    BMI = weight / (height*height) # weight(KG), height(M)
+    recommend_workouts = []
+    if BMI < 18.5:
+        recommend_workouts.append["Gardening"]
+        recommend_workouts.append["Video-exercise (DVD/TV) cardio"]
+        recommend_workouts.append["Exercise/activity-based video game"]
+        recommend_workouts.append["Hatha Yoga"]
+    elif BMI < 25:
+        recommend_workouts.append["Basketball"]
+        recommend_workouts.append["Tennis"]
+        recommend_workouts.append["Jumping rope"]
+        recommend_workouts.append["Hiking"]
+    elif BMI < 30:
+        recommend_workouts.append["Running"]
+        recommend_workouts.append["Stationary cycling"]
+        recommend_workouts.append["Swimming laps"]
+        recommend_workouts.append["Yarkwork"]
+    else:
+        recommend_workouts.append["Walking for exercise"]
+
+    return {"status": 200, "message": "Workouts recommended", "workouts": recommend_workouts}
+
+@app.route("/api/What_I_eat", methods=['POST'])
+def What_I_eat():
+    id = request.headers.get("id")
+    if not id:
+        return {"status": 400, "message": "Missing header"}
+    result = db.session.execute(
+        "SELECT recipeName FROM people NATURAL JOIN Recipe WHERE people.id =:id",
+        {"id": id},
+    )
+    food = result.fetchall()
+    result.close()
+    food = str(food)
+    if food == "":
+        return {"status": 400, "message": "Nothing ate yet"}
+    return {"status": 200, "message": "Food found", "Food": food}
