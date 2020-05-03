@@ -19,7 +19,6 @@
 .content .sidebarlink {
   padding: 0px 16px;
   color: #47525e;
-  font-family: Lato;
   font-size: 24px;
   font-weight: 400;
   line-height: 80px;
@@ -61,7 +60,6 @@
 .teamName {
   display: block;
   color: #47525e;
-  font-family: Lato;
   font-size: 30px;
   font-weight: 400;
   line-height: 30px;

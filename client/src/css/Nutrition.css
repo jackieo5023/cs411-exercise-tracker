@@ -3,7 +3,6 @@ body,
 .grid-container {
   height: 110vh;
   margin: 0;
-  font-family: Lato;
 }
 .grid-container-nu * {
   /* border: 1px solid red; */
@@ -121,7 +120,6 @@ body,
   display: block;
   font-size: 1.5vw;
   color: #ffffff;
-  font-family: Lato;
   padding-top: 3%;
   padding-bottom: 3%;
 }
@@ -130,7 +128,6 @@ body,
   display: block;
   font-size: 3.5vw;
   color: #ffffff;
-  font-family: Lato;
   padding-bottom: 3%;
 }
 
@@ -163,7 +160,6 @@ body,
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
     box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
     border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  font-family: "Lato";
   font-weight: 500;
   line-height: 1.75;
   border-radius: 4px;
@@ -187,7 +183,6 @@ body,
   display: block;
   font-size: 1.5vw;
   color: #ffffff;
-  font-family: Lato;
   padding-top: 6vw;
   padding-bottom: 6vw;
 }

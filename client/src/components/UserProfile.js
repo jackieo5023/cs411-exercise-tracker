@@ -178,7 +178,14 @@ function UserProfile({ location, userId }) {
                 <ListItem alignItems="flex-start">
                   <ListItemText
                     primary={workout.type}
-                    secondary={<p>{workout.METs}</p>}
+                    secondary={
+                      <>
+                        {workout.METs}
+                        {workout.equipment.length === 0
+                          ? ""
+                          : `, ${workout.equipment.join(", ")}`}
+                      </>
+                    }
                   />
                 </ListItem>
               );

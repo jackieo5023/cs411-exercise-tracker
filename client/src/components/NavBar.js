@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "reactstrap";
+import { Button } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 
 //Stylesheet
@@ -16,7 +16,7 @@ function NavBar({ userId, setUserId }) {
   const handleClick = () => {
     if (userId) {
       setUserId(null);
-    } else {
+      localStorage.removeItem("userId");
     }
   };
 
@@ -58,9 +58,11 @@ function NavBar({ userId, setUserId }) {
           </div>
         </NavLink>
         {userId && (
-          <Button color="secondary" onClick={handleClick}>
-            Sign Out
-          </Button>
+          <NavLink className="routeLink" to="/login" onClick={handleClick}>
+            <div className="barItem">
+              <span className="sidebarlink">Sign Out</span>
+            </div>
+          </NavLink>
         )}
       </div>
     </div>

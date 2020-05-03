@@ -72,32 +72,25 @@ function MainDashboard({ userId }) {
       </div>
       <div className="suggestedworkoutpanel">
         <div className="suggestedworkouts">
-          {suggestedWorkouts[0] && (
+          {suggestedWorkouts.map((workout, idx) => (
             <Card className="workoutcard">
               <CardContent className="workoutcardcontent">
                 <div className="workoutcardtext">
-                  <h4>Type: {suggestedWorkouts[0].type}</h4>
-                  <h4>METs: {suggestedWorkouts[0].METs}</h4>
-                  <Button onClick={() => handleAddSuggestedWorkout(0)}>
+                  <h4>Type: {workout.type}</h4>
+                  <h4>METs: {workout.METs}</h4>
+                  <h4>
+                    Equipment:{" "}
+                    {workout.equipment.length === 0
+                      ? "None"
+                      : workout.equipment.join(", ")}
+                  </h4>
+                  <Button onClick={() => handleAddSuggestedWorkout(idx)}>
                     Add to Completed Workouts
                   </Button>
                 </div>
               </CardContent>
             </Card>
-          )}
-          {suggestedWorkouts[1] && (
-            <Card className="workoutcard">
-              <CardContent className="workoutcardcontent">
-                <div className="workoutcardtext">
-                  <h4>Type: {suggestedWorkouts[1].type}</h4>
-                  <h4>METs: {suggestedWorkouts[1].METs}</h4>
-                  <Button onClick={() => handleAddSuggestedWorkout(1)}>
-                    Add to Completed Workouts
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          ))}
         </div>
       </div>
       <div className="suggestedrecipepanel">

@@ -1,7 +1,8 @@
 import fetch from "isomorphic-fetch";
 
 const BASE_URL =
-  "https://ec2-3-136-159-241.us-east-2.compute.amazonaws.com:5000/api";
+  // "https://ec2-3-136-159-241.us-east-2.compute.amazonaws.com:5000/api";
+  "http://localhost:5000/api";
 
 export const login = (body) => {
   return fetch(`${BASE_URL}/login`, {
@@ -78,6 +79,18 @@ export const getSuggestedWorkouts = (body) => {
 export const addCompletedWorkout = (body) => {
   const { id, ...rest } = body;
   return fetch(`${BASE_URL}/me/workout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      id: id,
+    },
+    body: JSON.stringify(rest),
+  }).then((res) => res.json());
+};
+
+export const addRecipe = (body) => {
+  const { id, ...rest } = body;
+  return fetch(`${BASE_URL}/insert_recipe`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

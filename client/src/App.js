@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Route,
   BrowserRouter as Router,
@@ -20,6 +20,13 @@ import NutritionGraph from "./components/NutritionGraph";
 
 function App() {
   const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+    if (id != null) {
+      setUserId(id);
+    }
+  });
 
   const showIfAuthed = useCallback(
     (component) => {
@@ -83,7 +90,7 @@ function App() {
               <Route
                 path="/nutrition"
                 exact
-                render={() => showIfAuthed(<NutritionPage />)}
+                render={() => showIfAuthed(<NutritionPage userId={userId} />)}
               />
               <Route
                 path="/settings"

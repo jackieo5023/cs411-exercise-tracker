@@ -37,22 +37,22 @@ def workouts_reload():
             if (x == False):
                 return {"status": 400, "message": "Collection drop failed"}
             
-            x = db.workouts.insert_one({"type": "Bicycling", "METs": "8.0"})
-            x = db.workouts.insert_one({"type": "Jumping rope", "METs": "12.3"})
-            x = db.workouts.insert_one({"type": "Hatha Yoga", "METs": "2.5"})
-            x = db.workouts.insert_one({"type": "Running", "METs": "9.8"})
-            x = db.workouts.insert_one({"type": "Golf", "METs": "4.3"})
-            x = db.workouts.insert_one({"type": "Tennis", "METs": "8.0"})
-            x = db.workouts.insert_one({"type": "Basketball", "METs": "6.5"})
-            x = db.workouts.insert_one({"type": "Swimming laps", "METs": "5.8"})
-            x = db.workouts.insert_one({"type": "Hiking", "METs": "7.3"})
-            x = db.workouts.insert_one({"type": "Stationary cycling", "METs": "6.8"})
-            x = db.workouts.insert_one({"type": "Circuit training", "METs": "8.0"})
-            x = db.workouts.insert_one({"type": "Yardwork", "METs": "5.0"})
-            x = db.workouts.insert_one({"type": "Gardening", "METs": "3.8"})
-            x = db.workouts.insert_one({"type": "Walking for exercise", "METs": "4.3"})
-            x = db.workouts.insert_one({"type": "Exercise/activity-based video game", "METs": "3.8"})
-            x = db.workouts.insert_one({"type": "Video-exercise (DVD/TV) cardio", "METs": "4.0"})
+            x = db.workouts.insert_one({"type": "Bicycling", "METs": 8.0, "equipment": ["bike"]})
+            x = db.workouts.insert_one({"type": "Jumping rope", "METs": 12.3, "equipment": ["rope"]})
+            x = db.workouts.insert_one({"type": "Hatha Yoga", "METs": 2.5, "equipment": []})
+            x = db.workouts.insert_one({"type": "Running", "METs": 9.8, "equipment": []})
+            x = db.workouts.insert_one({"type": "Golf", "METs": 4.3, "equipment": ["golf club", "golf ball"]})
+            x = db.workouts.insert_one({"type": "Tennis", "METs": 8.0, "equipment": ["tennis racket", "tennis ball"]})
+            x = db.workouts.insert_one({"type": "Basketball", "METs": 6.5, "equipment": ["basketball"]})
+            x = db.workouts.insert_one({"type": "Swimming laps", "METs": 5.8, "equipment": ["pool"]})
+            x = db.workouts.insert_one({"type": "Hiking", "METs": 7.3, "equipment": []})
+            x = db.workouts.insert_one({"type": "Stationary cycling", "METs": 6.8, "equipment": ["stationary bike"]})
+            x = db.workouts.insert_one({"type": "Circuit training", "METs": 8.0, "equipment": ["bike"]})
+            x = db.workouts.insert_one({"type": "Yardwork", "METs": 5.0, "equipment": []})
+            x = db.workouts.insert_one({"type": "Gardening", "METs": 3.8, "equipment": []})
+            x = db.workouts.insert_one({"type": "Walking for exercise", "METs": 4.3, "equipment": []})
+            x = db.workouts.insert_one({"type": "Exercise/activity-based video game", "METs": 3.8, "equipment": ["video game"]})
+            x = db.workouts.insert_one({"type": "Video-exercise (DVD/TV) cardio", "METs": 4.0, "equipment": ["exercise video"]})
         except pymongo.errors.DuplicateKeyError as e:
             return {"status": 409, "message": "Workouts already exists"}
         except Exception as e:
@@ -235,12 +235,7 @@ def workouts():
                 return {"status": 200, "message": "Workouts found", "workouts": final_workouts}
             return {"status": 400, "message": "Workouts not found"}
         else:
-            workouts = client.test.workouts.find({}, {"type": 1, "METs": 1})
-            final_workouts = []
-            for workout in workouts:
-                temp = workout
-                temp["_id"] = str(workout["_id"])
-                final_workouts.append(temp)
+            final_workouts = recommend(person_id)
 
             return {"status": 200, "workouts": final_workouts}
     elif request.method == "POST":
@@ -250,10 +245,11 @@ def workouts():
         
         type_workout = body.get("type")
         METs = body.get("METs")
-        if not type_workout or not METs:
+        equipment = body.get("equipment")
+        if not type_workout or not METs or not equipment:
             return {"status": 400, "message": "Missing field"}
 
-        inserted = client.test.workouts.insert_one({"type": type_workout,"METs": METs})
+        inserted = client.test.workouts.insert_one({"type": type_workout,"METs": METs, "equipment": equipment})
         result = db.session.execute(
             "INSERT INTO CompletedWorkout (personId, workoutId) VALUES (:personId, :workoutId)",
             {"personId": person_id, "workoutId": str(inserted.inserted_id)},
@@ -281,73 +277,6 @@ def workouts():
     else:
         return {"status": 400, "message": "Invalid request type"}
 
-
-@app.route("/api/find_recipe", methods=['GET'])
-def find_recipe():
-    body = request.get_json()
-    if not body:
-        return {"status": 400, "message": "Invalid body"}
-    recipeName = body.get("recipeName")
-    if not recipeName:
-        return {"status": 400, "message": "Missing field"}
-    result = db.session.execute(
-        "SELECT protein,calories FROM Recipe WHERE name =:recipeName",
-        {"name": recipeName},
-    )
-    Facts = result.fetchone()
-    result.close()
-
-    if Facts:
-        return {"status": 200, "message": "Recipe found"}
-    return {"status": 404, "message": "Recipe not found"}
-
-@app.route("/api/insert_recipe", methods=['POST'])
-def insert_recipe():
-    body = request.get_json()
-    if not body:
-        return {"status": 400, "message": "Invalid body"}
-    name = body.get("recipeName")
-    protein = body.get("protein")
-    #vitamin = body.get("vitamin")
-    calories = body.get("calories")
-
-    if not name or not protein or not calories:
-        return {"status": 400, "message": "Missing field"}
-    try:
-        result = db.session.execute(
-            "INSERT INTO Recipe (name, protein, calories) VALUES (:name, :protein, :calories)",
-            {"name": name, "protein": protein, "calories": calories},
-        )
-        db.session.commit()
-    except IntegrityError:
-        return {"status": 409, "message": "Recipe already exists"}
-    except Exception as e:
-        return {"status": 500, "message": "Something went wrong"}
-
-    ins_id = db.session.execute("SELECT LAST_INSERT_ID() as id").fetchone()
-    return {"status": 201, "message": "Recipe created", "id": ins_id["id"]}
-
-@app.route("/api/delete_recipe", methods=['DELETE'])
-def delete_recipe():
-    body = request.get_json()
-    if not body:
-        return {"status": 400, "message": "Invalid body"}
-    name = body.get("recipeName")
-
-    if not name:
-        return {"status": 400, "message": "Invalid body"}
-    
-    try:
-        result = db.session.execute(
-            "DELETE FROM Recipe WHERE name = :name",
-            {"name": name},
-        )
-        db.session.commit()
-    except Exception as e:
-        return {"status": 500, "message": "Something went wrong"}
-    if not result:
-        return {"status": 404, "message": "Recipe not found"}
-    return {"status": 201, "message": "Recipe deleted"}
 @app.route("/api/insert_completed_workouts", methods=['POST'])
 def insert_completed_workouts():
     body = request.get_json()
@@ -371,61 +300,121 @@ def insert_completed_workouts():
 
     ins_id = db.session.execute("SELECT LAST_INSERT_ID() as id").fetchone()
     return {"status": 201, "message": "Completed workout added", "id": ins_id["id"]}
-@app.route("/api/recommend", methods=['POST'])
-def recommend():
-    id = request.headers.get("id")
+
+def recommend(id):
     if not id:
-        return {"status": 400, "message": "Missing header"}
-    result_w = db.session.execute(
-        "SELECT weight FROM Person WHERE id =:id",
+        return []
+
+    result = db.session.execute(
+        "SELECT weight, height FROM people WHERE id =:id",
         {"id": id},
     )
-    weight = result_w.fetchone()
-    result_w.close()
-    result_h = db.session.execute(
-        "SELECT height FROM Person WHERE id =:id",
-        {"id": id},
-    )
-    height = result_h.fetchone()
-    result_h.close()
-    BMI = 703 * weight / (height*height)
+    wh = result.fetchone()
+    result.close()
+
+    BMI = 703 * wh[0] / (wh[1]*wh[1])
     recommend_workouts = []
     client = mongo.cx
     if BMI < 18.5:
-        workouts = client.test.workouts.find({"METs": {'$lte': 5.0}},{"type":1,"METs":0,"_id":0})
+        workouts = client.test.workouts.find({"METs": {'$lte': 5.0}},{"type":1,"METs":1,"equipment":1})
         for workout in workouts:
-            temp = str(workout)
+            temp = workout
+            temp["_id"] = str(workout["_id"])
             recommend_workouts.append(temp)
     elif BMI < 25:
-        workouts = client.test.workouts.find({"METs": {'$gte': 8.0,'$lte': 15.0}},{"type":1,"METs":0,"_id":0})
+        workouts = client.test.workouts.find({"METs": {'$gte': 8.0,'$lte': 15.0}},{"type":1,"METs":1,"equipment":1})
         for workout in workouts:
-            temp = str(workout)
+            temp = workout
+            temp["_id"] = str(workout["_id"])
             recommend_workouts.append(temp)
     elif BMI < 30:
-        workouts = client.test.workouts.find({"METs": {'$gte': 5.1,'$lte': 7.5}},{"type":1,"METs":0,"_id":0})
+        workouts = client.test.workouts.find({"METs": {'$gte': 5.1,'$lte': 7.5}},{"type":1,"METs":1,"equipment":1})
         for workout in workouts:
-            temp = str(workout)
+            temp = workout
+            temp["_id"] = str(workout["_id"])
             recommend_workouts.append(temp)
     else:
-        workouts = client.test.workouts.find({"METs": {'$lte': 5.0}},{"type":1,"METs":0,"_id":0})
+        workouts = client.test.workouts.find({"METs": {'$lte': 5.0}},{"type":1,"METs":1,"equipment":1})
         for workout in workouts:
-            temp = str(workout)
+            temp = workout
+            temp["_id"] = str(workout["_id"])
             recommend_workouts.append(temp)
 
-    return {"status": 200, "message": "Workouts recommended", "workouts": recommend_workouts}
+    return recommend_workouts
 
-@app.route("/api/What_I_eat", methods=['POST'])
+@app.route("/api/recipe", methods=['GET', 'POST', 'DELETE'])
 def What_I_eat():
-    id = request.headers.get("id")
-    if not id:
+    person_id = request.headers.get("id")
+    if not person_id:
         return {"status": 400, "message": "Missing header"}
+
+    if request.method == "GET":
+        result = db.session.execute(
+            "SELECT * FROM Recipe WHERE personId =:id",
+            {"id": person_id},
+        )
+        food = result.fetchall()
+        result.close()
+
+        return {"status": 200, "message": "Food found", "Food": [dict(f.items()) for f in food]}
+    elif request.method == "POST":
+        body = request.get_json()
+        if not body:
+            return {"status": 400, "message": "Invalid body"}
+
+        name = body.get("recipeName")
+        protein = body.get("protein")
+        #vitamin = body.get("vitamin")
+        calories = body.get("calories")
+        if not name or not protein or not calories:
+            return {"status": 400, "message": "Missing field"}
+        try:
+            result = db.session.execute(
+                "INSERT INTO Recipe (recipeName, protein, calories, personId) VALUES (:name, :protein, :calories, :id)",
+                {"name": name, "protein": protein, "calories": calories, "id": person_id},
+            )
+            db.session.commit()
+        except IntegrityError:
+            return {"status": 409, "message": "Recipe already exists"}
+        except Exception as e:
+            return {"status": 500, "message": "Something went wrong"}
+
+        ins_id = db.session.execute("SELECT LAST_INSERT_ID() as id").fetchone()
+        return {"status": 201, "message": "Recipe created", "id": ins_id["id"]}
+    elif request.method == "DELETE":
+        body = request.get_json()
+        if not body:
+            return {"status": 400, "message": "Invalid body"}
+
+        recipe_id = body.get("recipeId")
+        if not recipe_id:
+            return {"status": 400, "message": "Invalid body"}
+        
+        try:
+            result = db.session.execute(
+                "DELETE FROM Recipe WHERE recipeId=:recipeId",
+                {"recipeId": recipe_id},
+            )
+            db.session.commit()
+        except Exception as e:
+            return {"status": 500, "message": "Something went wrong"}
+        if not result:
+            return {"status": 404, "message": "Recipe not found"}
+        return {"status": 201, "message": "Recipe deleted"}
+    else:
+        return {"status": 400, "message": "Invalid request type"}
+
+@app.route("/api/recommended_recipes", methods=['GET'])
+def recommended_recipes():
+    person_id = request.headers.get("id")
+    if not person_id:
+        return {"status": 400, "message": "Missing header"}
+
     result = db.session.execute(
-        "SELECT recipeName FROM people NATURAL JOIN Recipe WHERE people.id =:id",
-        {"id": id},
+        "SELECT firstName, recipeName, protein, calories FROM people JOIN Recipe ON people.id=Recipe.personId WHERE people.id <> :id",
+        {"id": person_id},
     )
     food = result.fetchall()
     result.close()
-    food = str(food)
-    if food == "":
-        return {"status": 400, "message": "Nothing ate yet"}
-    return {"status": 200, "message": "Food found", "Food": food}
+
+    return {"status": 200, "message": "Food found", "Food": [dict(f.items()) for f in food]}

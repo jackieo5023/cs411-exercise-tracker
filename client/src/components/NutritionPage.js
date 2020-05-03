@@ -14,17 +14,30 @@ import NutritionGraph from "./NutritionGraph";
 
 //Stylesheet
 import "../css/Nutrition.css";
+import { addRecipe } from "../utils/api";
 
-function NutritionPage() {
+function NutritionPage({ userId }) {
+  const [name, setName] = useState("");
   const [calories, setCalories] = useState("");
   const [protein, setProtein] = useState("");
-  const [ingr1, setIngr1] = useState("");
-  const [ing2, setIngr2] = useState("");
-  const [ing3, setIngr3] = useState("");
-  const [ing4, setIngr4] = useState("");
 
-  const handleChange = (event) => {
+  const handleSubmit = async () => {
+    await addRecipe({
+      recipeName: name,
+      calories,
+      protein,
+      id: userId,
+    });
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+  const handleCaloriesChange = (event) => {
     setCalories(event.target.value);
+  };
+  const handleProteinChange = (e) => {
+    setProtein(e.target.value);
   };
 
   return (
@@ -90,12 +103,14 @@ function NutritionPage() {
               <TextField
                 className="textbox"
                 id="outlined-basic"
-                label="Calories, if known (cals)"
-                placeholder="800"
+                label="Recipe Name"
+                placeholder="Burger"
                 required
                 id="outlined-required"
                 variant="outlined"
                 style={{ width: "250px" }}
+                value={name}
+                onChange={handleNameChange}
               />
             </form>
           </div>
@@ -104,117 +119,39 @@ function NutritionPage() {
               <TextField
                 className="textbox"
                 id="outlined-basic"
-                label="Protein, if known (grams)"
+                label="Calories (cals)"
+                placeholder="800"
+                required
+                id="outlined-required"
+                variant="outlined"
+                style={{ width: "250px" }}
+                value={calories}
+                onChange={handleCaloriesChange}
+                type="number"
+              />
+            </form>
+          </div>
+          <div class="recipetextbox">
+            <form noValidate autoComplete="off">
+              <TextField
+                className="textbox"
+                id="outlined-basic"
+                label="Protein (grams)"
                 placeholder="28"
                 required
                 id="outlined-required"
                 variant="outlined"
                 style={{ width: "250px" }}
+                value={protein}
+                onChange={handleProteinChange}
+                type="number"
               />
             </form>
           </div>
-          <div class="recipedropdown">
-            <FormControl variant="outlined">
-              <InputLabel id="demo-simple-select-outlined-label">
-                Main Ingredients (up to 4) *
-              </InputLabel>
-              <Select
-                className="dropdownbox"
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                required
-                value={calories}
-                onChange={handleChange}
-                label="Main Ingredients (up to 4) *"
-                style={{ width: "250px" }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={1}>Eggs</MenuItem>
-                <MenuItem value={2}>Tuna</MenuItem>
-                <MenuItem value={3}>Bread</MenuItem>
-                <MenuItem value={4}>Chicken</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div class="recipedropdown">
-            <FormControl variant="outlined">
-              <InputLabel id="demo-simple-select-outlined-label">
-                Main Ingredients (up to 4) *
-              </InputLabel>
-              <Select
-                className="dropdownbox"
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                required
-                value={calories}
-                onChange={handleChange}
-                label="Main Ingredients (up to 4) *"
-                style={{ width: "250px" }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={1}>Eggs</MenuItem>
-                <MenuItem value={2}>Tuna</MenuItem>
-                <MenuItem value={3}>Bread</MenuItem>
-                <MenuItem value={4}>Chicken</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div class="recipedropdown">
-            <FormControl variant="outlined">
-              <InputLabel id="demo-simple-select-outlined-label">
-                Main Ingredients (up to 4) *
-              </InputLabel>
-              <Select
-                className="dropdownbox"
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                required
-                value={calories}
-                onChange={handleChange}
-                label="Main Ingredients (up to 4) *"
-                style={{ width: "250px" }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={1}>Eggs</MenuItem>
-                <MenuItem value={2}>Tuna</MenuItem>
-                <MenuItem value={3}>Bread</MenuItem>
-                <MenuItem value={4}>Chicken</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div class="recipedropdown">
-            <FormControl variant="outlined">
-              <InputLabel id="demo-simple-select-outlined-label">
-                Main Ingredients (up to 4) *
-              </InputLabel>
-              <Select
-                className="dropdownbox"
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                required
-                value={calories}
-                onChange={handleChange}
-                label="Main Ingredients (up to 4) *"
-                style={{ width: "250px" }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={1}>Eggs</MenuItem>
-                <MenuItem value={2}>Tuna</MenuItem>
-                <MenuItem value={3}>Bread</MenuItem>
-                <MenuItem value={4}>Chicken</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
           <div class="recipebuttongroup">
-            <Button class="recipebutton">Submit Meal</Button>
+            <Button class="recipebutton" onClick={handleSubmit}>
+              Submit Meal
+            </Button>
           </div>
         </div>
       </div>
