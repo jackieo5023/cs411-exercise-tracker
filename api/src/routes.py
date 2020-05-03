@@ -246,8 +246,10 @@ def workouts():
         type_workout = body.get("type")
         METs = body.get("METs")
         equipment = body.get("equipment")
-        if not type_workout or not METs or not equipment:
+        if not type_workout or not METs:
             return {"status": 400, "message": "Missing field"}
+        if not equipment:
+            equipment = []
 
         inserted = client.test.workouts.insert_one({"type": type_workout,"METs": METs, "equipment": equipment})
         result = db.session.execute(
@@ -356,7 +358,7 @@ def What_I_eat():
         food = result.fetchall()
         result.close()
 
-        return {"status": 200, "message": "Food found", "Food": [dict(f.items()) for f in food]}
+        return {"status": 200, "message": "Food found", "food": [dict(f.items()) for f in food]}
     elif request.method == "POST":
         body = request.get_json()
         if not body:
@@ -400,7 +402,7 @@ def What_I_eat():
             return {"status": 500, "message": "Something went wrong"}
         if not result:
             return {"status": 404, "message": "Recipe not found"}
-        return {"status": 201, "message": "Recipe deleted"}
+        return {"status": 204, "message": "Recipe deleted"}
     else:
         return {"status": 400, "message": "Invalid request type"}
 
@@ -417,4 +419,4 @@ def recommended_recipes():
     food = result.fetchall()
     result.close()
 
-    return {"status": 200, "message": "Food found", "Food": [dict(f.items()) for f in food]}
+    return {"status": 200, "message": "Food found", "food": [dict(f.items()) for f in food]}

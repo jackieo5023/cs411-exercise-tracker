@@ -88,10 +88,55 @@ export const addCompletedWorkout = (body) => {
   }).then((res) => res.json());
 };
 
+export const deleteWorkout = (body) => {
+  const { id, ...rest } = body;
+  return fetch(`${BASE_URL}/me/workout`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      id: body.id,
+    },
+    body: JSON.stringify(rest),
+  }).then((res) => res.json());
+};
+
+export const getSuggestedRecipes = (body) => {
+  return fetch(`${BASE_URL}/recommended_recipes`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      id: body.id,
+    },
+  }).then((res) => res.json());
+};
+
+export const getRecipes = (body) => {
+  return fetch(`${BASE_URL}/recipe`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      id: body.id,
+    },
+  }).then((res) => res.json());
+};
+
 export const addRecipe = (body) => {
   const { id, ...rest } = body;
-  return fetch(`${BASE_URL}/insert_recipe`, {
+  return fetch(`${BASE_URL}/recipe`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      id: id,
+    },
+    body: JSON.stringify(rest),
+  }).then((res) => res.json());
+};
+
+export const deleteRecipe = (body) => {
+  const { id, ...rest } = body;
+  console.log(rest);
+  return fetch(`${BASE_URL}/recipe`, {
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       id: id,

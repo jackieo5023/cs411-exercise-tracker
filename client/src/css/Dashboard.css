@@ -77,7 +77,7 @@ body,
 }
 .greeting {
   display: block;
-  font-size: 4vw;
+  font-size: 2.8vw;
 }
 
 .loggingmsg {
@@ -184,10 +184,14 @@ body,
 
 .suggestedworkouts {
   margin-left: 1.75vw;
+  height: 70vh;
+  overflow-y: scroll;
 }
 
 .suggestedrecipes {
   margin-left: 1.75vw;
+  height: 70vh;
+  overflow-y: scroll;
 }
 
 /* Card type A: Workouts */
@@ -230,6 +234,6 @@ body,
   display: block;
   font-size: 1.5vw;
   color: #ffffff;
-  padding-top: 6vw;
-  padding-bottom: 6vw;
+  padding-top: 3vw;
+  padding-bottom: 3vw;
 }

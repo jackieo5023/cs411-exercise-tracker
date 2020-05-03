@@ -5,24 +5,54 @@ import DashboardGraph from "./DashboardGraph";
 
 //Stylesheet
 import "../css/Dashboard.css";
-import { getSuggestedWorkouts, addCompletedWorkout } from "../utils/api";
+import {
+  getSuggestedWorkouts,
+  addCompletedWorkout,
+  getSuggestedRecipes,
+  addRecipe,
+  getPerson,
+} from "../utils/api";
 
 function MainDashboard({ userId }) {
+  const [name, setName] = useState("");
   const [suggestedWorkouts, setSuggestedWorkouts] = useState([]);
+  const [suggestedRecipes, setSuggestedRecipes] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      const response = await getSuggestedWorkouts({ id: userId });
+      const response = await getPerson({ id: userId });
       if (response.status === 200) {
-        setSuggestedWorkouts(response.workouts);
+        setName(response.person.firstName);
+      }
+
+      const workoutResponse = await getSuggestedWorkouts({ id: userId });
+      if (workoutResponse.status === 200) {
+        setSuggestedWorkouts(workoutResponse.workouts);
+      }
+
+      const recipeResponse = await getSuggestedRecipes({ id: userId });
+      if (recipeResponse.status === 200) {
+        setSuggestedRecipes(recipeResponse.food);
       }
     }
     fetchData();
   }, [userId]);
 
-  const handleAddSuggestedWorkout = useCallback(async (i) => {
-    await addCompletedWorkout({ id: userId, ...suggestedWorkouts[i] });
-  });
+  const handleAddSuggestedWorkout = useCallback(
+    async (i) => {
+      await addCompletedWorkout({
+        id: userId,
+        ...suggestedWorkouts[i],
+      });
+    },
+    [suggestedWorkouts, userId]
+  );
+  const handleAddSuggestedRecipe = useCallback(
+    async (i) => {
+      await addRecipe({ id: userId, ...suggestedRecipes[i] });
+    },
+    [suggestedRecipes, userId]
+  );
 
   return (
     <div className="grid-container-dashboard">
@@ -33,7 +63,7 @@ function MainDashboard({ userId }) {
       </div>
       <div className="welcomepanel">
         <div className="welcome">
-          <h1 className="greeting">Hi Jackie!</h1>
+          <h1 className="greeting">Hi {name}!</h1>
           <h4 className="loggingmsg">You've logged for 5 days in a row</h4>
         </div>
       </div>
@@ -95,16 +125,21 @@ function MainDashboard({ userId }) {
       </div>
       <div className="suggestedrecipepanel">
         <div className="suggestedrecipes">
-          <Card className="recipecard">
-            <CardContent className="recipecardcontent">
-              <h4 className="recipecardtext">Salmon with Edamame</h4>
-            </CardContent>
-          </Card>
-          <Card className="recipecard">
-            <CardContent className="recipecardcontent">
-              <h4 className="recipecardtext">Garden Chicken Burger</h4>
-            </CardContent>
-          </Card>
+          {suggestedRecipes.map((recipe, idx) => (
+            <Card className="recipecard">
+              <CardContent className="recipecardcontent">
+                <div className="recipecardtext">
+                  <h4>Name: {recipe.recipeName}</h4>
+                  <h4>Protein: {recipe.protein}g</h4>
+                  <h4>Calories: {recipe.calories}</h4>
+                  <h4>Made By: {recipe.firstName}</h4>
+                  <Button onClick={() => handleAddSuggestedRecipe(idx)}>
+                    Add to Meals
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </div>

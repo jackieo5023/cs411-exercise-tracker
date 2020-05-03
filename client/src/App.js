@@ -26,7 +26,7 @@ function App() {
     if (id != null) {
       setUserId(id);
     }
-  });
+  }, []);
 
   const showIfAuthed = useCallback(
     (component) => {
