@@ -81,11 +81,11 @@ function MainDashboard({ userId }) {
             label="Duration (in minutes)"
             placeholder="30"
             required
-            id="outlined-required"
             variant="outlined"
             style={{ width: "250px" }}
             onChange={(e) => setDuration(e.target.value)}
             value={duration}
+            type="number"
           />
           <div className="workout-modal-button">
             <Button onClick={() => handleAddSuggestedWorkout(isOpen, duration)}>

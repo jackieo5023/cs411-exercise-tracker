@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -14,12 +14,13 @@ import NutritionGraph from "./NutritionGraph";
 
 //Stylesheet
 import "../css/Nutrition.css";
-import { addRecipe } from "../utils/api";
+import { addRecipe, getSuggestedRecipes } from "../utils/api";
 
 function NutritionPage({ userId }) {
   const [name, setName] = useState("");
   const [calories, setCalories] = useState("");
   const [protein, setProtein] = useState("");
+  const [suggestedRecipes, setSuggestedRecipes] = useState([]);
 
   const handleSubmit = async () => {
     await addRecipe({
@@ -40,40 +41,95 @@ function NutritionPage({ userId }) {
     setProtein(e.target.value);
   };
 
+  const handleAddSuggestedRecipe = useCallback(
+    async (i) => {
+      await addRecipe({ id: userId, ...suggestedRecipes[i] });
+    },
+    [suggestedRecipes, userId]
+  );
+
+  useEffect(() => {
+    async function fetchData() {
+      const recipeResponse = await getSuggestedRecipes({ id: userId });
+      if (recipeResponse.status === 200) {
+        setSuggestedRecipes(recipeResponse.food);
+      }
+    }
+    fetchData();
+  }, [userId]);
+
   return (
     <div class="grid-container-nu">
       <div class="A-nu">
         <div class="E-nu">
-          <div class="I-nu">
-            <Card className="recipecardnu">
-              <CardContent className="recipecardcontentnu">
-                <h4 className="recipecardtextnu">Salmon with Edamame</h4>
-              </CardContent>
-            </Card>
-          </div>
-          <div class="J-nu">
-            <Card className="recipecardnu">
-              <CardContent className="recipecardcontentnu">
-                <h4 className="recipecardtextnu">Easy Chicken Tacos</h4>
-              </CardContent>
-            </Card>
-          </div>
-          <div class="K-nu">
-            <Card className="recipecardnu">
-              <CardContent className="recipecardcontentnu">
-                <h4 className="recipecardtextnu">Garden Chicken Burger</h4>
-              </CardContent>
-            </Card>
-          </div>
-          <div class="L-nu">
-            <Card className="recipecardnu">
-              <CardContent className="recipecardcontentnu">
-                <h4 className="recipecardtextnu">
-                  Spinach and Mushroom Quiche
-                </h4>
-              </CardContent>
-            </Card>
-          </div>
+          {suggestedRecipes[0] && (
+            <div class="I-nu">
+              <Card className="recipecardnu">
+                <CardContent className="recipecardcontentnu">
+                  <div className="recipecardtextnu">
+                    <h4>Name: {suggestedRecipes[0].recipeName}</h4>
+                    <h4>Protein: {suggestedRecipes[0].protein}g</h4>
+                    <h4>Calories: {suggestedRecipes[0].calories}</h4>
+                    <h4>Made By: {suggestedRecipes[0].firstName}</h4>
+                    <Button onClick={() => handleAddSuggestedRecipe(0)}>
+                      Add to Meals
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          {suggestedRecipes[1] && (
+            <div class="J-nu">
+              <Card className="recipecardnu">
+                <CardContent className="recipecardcontentnu">
+                  <div className="recipecardtextnu">
+                    <h4>Name: {suggestedRecipes[1].recipeName}</h4>
+                    <h4>Protein: {suggestedRecipes[1].protein}g</h4>
+                    <h4>Calories: {suggestedRecipes[1].calories}</h4>
+                    <h4>Made By: {suggestedRecipes[1].firstName}</h4>
+                    <Button onClick={() => handleAddSuggestedRecipe(1)}>
+                      Add to Meals
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          {suggestedRecipes[2] && (
+            <div class="K-nu">
+              <Card className="recipecardnu">
+                <CardContent className="recipecardcontentnu">
+                  <div className="recipecardtextnu">
+                    <h4>Name: {suggestedRecipes[2].recipeName}</h4>
+                    <h4>Protein: {suggestedRecipes[2].protein}g</h4>
+                    <h4>Calories: {suggestedRecipes[2].calories}</h4>
+                    <h4>Made By: {suggestedRecipes[2].firstName}</h4>
+                    <Button onClick={() => handleAddSuggestedRecipe(2)}>
+                      Add to Meals
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          {suggestedRecipes[3] && (
+            <div class="L-nu">
+              <Card className="recipecardnu">
+                <CardContent className="recipecardcontentnu">
+                  <div className="recipecardtextnu">
+                    <h4>Name: {suggestedRecipes[3].recipeName}</h4>
+                    <h4>Protein: {suggestedRecipes[3].protein}g</h4>
+                    <h4>Calories: {suggestedRecipes[3].calories}</h4>
+                    <h4>Made By: {suggestedRecipes[3].firstName}</h4>
+                    <Button onClick={() => handleAddSuggestedRecipe(3)}>
+                      Add to Meals
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
         <div class="F-nu">
           <div className="suggrecipetextpanelnu">

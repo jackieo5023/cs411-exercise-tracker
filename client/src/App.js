@@ -85,7 +85,7 @@ function App() {
               <Route
                 path="/exercise"
                 exact
-                render={() => showIfAuthed(<ExercisePage />)}
+                render={() => showIfAuthed(<ExercisePage userId={userId} />)}
               />
               <Route
                 path="/nutrition"
