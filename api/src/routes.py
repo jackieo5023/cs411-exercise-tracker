@@ -246,12 +246,13 @@ def workouts():
         type_workout = body.get("type")
         METs = body.get("METs")
         equipment = body.get("equipment")
+        duration = body.get("duration")
         if not type_workout or not METs:
             return {"status": 400, "message": "Missing field"}
         if not equipment:
             equipment = []
 
-        inserted = client.test.workouts.insert_one({"type": type_workout,"METs": METs, "equipment": equipment})
+        inserted = client.test.workouts.insert_one({"type": type_workout,"METs": METs, "equipment": equipment, "duration": duration})
         result = db.session.execute(
             "INSERT INTO CompletedWorkout (personId, workoutId) VALUES (:personId, :workoutId)",
             {"personId": person_id, "workoutId": str(inserted.inserted_id)},

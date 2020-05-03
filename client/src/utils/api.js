@@ -78,6 +78,7 @@ export const getSuggestedWorkouts = (body) => {
 
 export const addCompletedWorkout = (body) => {
   const { id, ...rest } = body;
+  console.log(rest);
   return fetch(`${BASE_URL}/me/workout`, {
     method: "POST",
     headers: {

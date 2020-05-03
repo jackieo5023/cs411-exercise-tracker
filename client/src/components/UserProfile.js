@@ -228,7 +228,7 @@ function UserProfile({ location, userId }) {
                       primary={workout.type}
                       secondary={
                         <>
-                          {workout.METs}
+                          {workout.METs}, {workout.duration} minutes
                           {workout.equipment.length === 0
                             ? ""
                             : `, ${workout.equipment.join(", ")}`}

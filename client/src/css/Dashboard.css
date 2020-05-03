@@ -237,3 +237,21 @@ body,
   padding-top: 3vw;
   padding-bottom: 3vw;
 }
+
+.workout-modal {
+  position: absolute;
+  top: 30vh;
+  left: 37vw;
+  width: 500px;
+  height: 300px;
+  text-align: center;
+}
+
+.workout-modal-header {
+  margin-top: 46px;
+  margin-bottom: 20px;
+}
+
+.workout-modal-button {
+  margin-top: 20px;
+}

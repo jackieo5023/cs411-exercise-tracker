@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Card, CardActions, CardContent, Button } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Button,
+  TextField,
+  Modal,
+  Paper,
+} from "@material-ui/core";
 
 import DashboardGraph from "./DashboardGraph";
 
@@ -17,6 +24,8 @@ function MainDashboard({ userId }) {
   const [name, setName] = useState("");
   const [suggestedWorkouts, setSuggestedWorkouts] = useState([]);
   const [suggestedRecipes, setSuggestedRecipes] = useState([]);
+  const [isOpen, setIsOpen] = useState(null);
+  const [duration, setDuration] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -39,11 +48,13 @@ function MainDashboard({ userId }) {
   }, [userId]);
 
   const handleAddSuggestedWorkout = useCallback(
-    async (i) => {
+    async (i, d) => {
       await addCompletedWorkout({
         id: userId,
         ...suggestedWorkouts[i],
+        duration: d,
       });
+      setIsOpen(null);
     },
     [suggestedWorkouts, userId]
   );
@@ -54,8 +65,35 @@ function MainDashboard({ userId }) {
     [suggestedRecipes, userId]
   );
 
+  const handleOpenModal = useCallback((i) => setIsOpen(i), []);
+  const handleCloseModal = useCallback(() => setIsOpen(null), []);
+
   return (
     <div className="grid-container-dashboard">
+      <Modal open={isOpen !== null} onClose={handleCloseModal}>
+        <Paper elevation={3} className="workout-modal">
+          <h2 className="workout-modal-header">
+            How long are you doing this exercise for?
+          </h2>
+          <TextField
+            className="textbox"
+            id="outlined-basic"
+            label="Duration (in minutes)"
+            placeholder="30"
+            required
+            id="outlined-required"
+            variant="outlined"
+            style={{ width: "250px" }}
+            onChange={(e) => setDuration(e.target.value)}
+            value={duration}
+          />
+          <div className="workout-modal-button">
+            <Button onClick={() => handleAddSuggestedWorkout(isOpen, duration)}>
+              Submit
+            </Button>
+          </div>
+        </Paper>
+      </Modal>
       <div className="dashboardgraphpanel">
         <div className="dashboardgraph">
           <DashboardGraph></DashboardGraph>
@@ -114,7 +152,7 @@ function MainDashboard({ userId }) {
                       ? "None"
                       : workout.equipment.join(", ")}
                   </h4>
-                  <Button onClick={() => handleAddSuggestedWorkout(idx)}>
+                  <Button onClick={() => handleOpenModal(idx)}>
                     Add to Completed Workouts
                   </Button>
                 </div>
