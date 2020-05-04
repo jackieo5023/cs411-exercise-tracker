@@ -20,6 +20,8 @@ function Register({ setUserId }) {
     async (e) => {
       e.preventDefault();
       const {
+        username,
+        password,
         firstName,
         weight,
         height,
@@ -29,6 +31,8 @@ function Register({ setUserId }) {
       } = e.target.elements;
 
       const response = await register({
+        username: username.value,
+        password: password.value,
         firstName: firstName.value,
         weight: weight.value,
         height: height.value,
@@ -48,14 +52,14 @@ function Register({ setUserId }) {
 
   return (
     <Container>
-      <Col sm={{ size: 10, offset: 4 }} className="mb-4">
-        <div className="d-flex flex-wrap align-items-center mb-4 ml-5">
-          <h1 className="d-inline-block mb-0 mt-3 mr-auto pr-3 justify-content-center ml-3">
-            Sign Up
-          </h1>
-        </div>
+      <Col sm={{ size: 10, offset: 3 }}>
         <Row>
           <Form onSubmit={async (e) => handleSubmit(e)}>
+            <FormGroup row>
+              <Col className="text-center">
+                <h1>Sign Up</h1>
+              </Col>
+            </FormGroup>
             {message.length > 0 && (
               <FormGroup row>
                 <Col className="text-center">
@@ -64,7 +68,28 @@ function Register({ setUserId }) {
               </FormGroup>
             )}
             <FormGroup row>
-              <Label for="firstName" sm={2}>
+              <Label for="username" sm={3}>
+                Username
+              </Label>
+              <Col>
+                <Input
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="johnnyappleseed"
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label for="firstName" sm={3}>
+                Password
+              </Label>
+              <Col>
+                <Input type="password" name="password" id="password" />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label for="firstName" sm={3}>
                 First Name
               </Label>
               <Col>
@@ -77,7 +102,7 @@ function Register({ setUserId }) {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="lastName" sm={2}>
+              <Label for="lastName" sm={3}>
                 Last Name
               </Label>
               <Col>
@@ -90,7 +115,7 @@ function Register({ setUserId }) {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="weight" sm={2}>
+              <Label for="weight" sm={3}>
                 Weight (lbs)
               </Label>
               <Col>
@@ -103,7 +128,7 @@ function Register({ setUserId }) {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="height" sm={2}>
+              <Label for="height" sm={3}>
                 Height (inches)
               </Label>
               <Col>
@@ -116,7 +141,7 @@ function Register({ setUserId }) {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="age" sm={2}>
+              <Label for="age" sm={3}>
                 Age (years)
               </Label>
               <Col>
@@ -124,10 +149,10 @@ function Register({ setUserId }) {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="gender" sm={2}>
+              <Label for="gender" sm={3}>
                 Gender
               </Label>
-              <Col sm={10}>
+              <Col sm={9}>
                 <Input type="select" name="gender" id="gender">
                   <option>Male</option>
                   <option>Female</option>

@@ -9,16 +9,27 @@ import {
   List,
   ListItem,
   ListItemText,
+  ListItemSecondaryAction,
+  IconButton,
 } from "@material-ui/core";
+import { Col } from "reactstrap";
 import ClearIcon from "@material-ui/icons/Clear";
 import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
 import SettingsIcon from "@material-ui/icons/Settings";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 //Stylesheet
 import "../css/Profile.css";
 
-import { updatePerson, getPerson, getCompletedWorkouts } from "../utils/api";
+import {
+  updatePerson,
+  getPerson,
+  getCompletedWorkouts,
+  getRecipes,
+  deleteWorkout,
+  deleteRecipe,
+} from "../utils/api";
 
 function UserProfile({ location, userId }) {
   const [profile, setProfile] = useState({
@@ -30,6 +41,7 @@ function UserProfile({ location, userId }) {
     height: 0,
   });
   const [workouts, setWorkouts] = useState([]);
+  const [meals, setMeals] = useState([]);
   const [editingProfile, setEditingProfile] = useState(profile);
   const [isEditing, setIsEditing] = useState(
     location.state ? location.state.isEditing : false
@@ -46,6 +58,11 @@ function UserProfile({ location, userId }) {
       const workoutsResponse = await getCompletedWorkouts({ id: userId });
       if (workoutsResponse.status === 200) {
         setWorkouts(workoutsResponse.workouts);
+      }
+
+      const mealsResponse = await getRecipes({ id: userId });
+      if (mealsResponse.status === 200) {
+        setMeals(mealsResponse.food);
       }
     }
     fetchData();
@@ -67,6 +84,35 @@ function UserProfile({ location, userId }) {
     setEditingProfile(profile);
     setIsEditing(false);
   }, [profile]);
+
+  const handleDeleteWorkout = useCallback(
+    async (idx) => {
+      const response = await deleteWorkout({
+        id: userId,
+        workoutId: workouts[idx]._id,
+      });
+      if (response.status === 204) {
+        const newWorkouts = Array.from(workouts);
+        newWorkouts.splice(idx, 1);
+        setWorkouts(newWorkouts);
+      }
+    },
+    [userId, workouts]
+  );
+  const handleDeleteMeal = useCallback(
+    async (idx) => {
+      const response = await deleteRecipe({
+        id: userId,
+        recipeId: meals[idx].recipeId,
+      });
+      if (response.status === 204) {
+        const newMeals = Array.from(meals);
+        newMeals.splice(idx, 1);
+        setMeals(newMeals);
+      }
+    },
+    [userId, meals]
+  );
 
   return (
     <div className="grid-container-profile">
@@ -171,19 +217,65 @@ function UserProfile({ location, userId }) {
           />
         </div>
         <div className="row">
-          <List>
-            Past Workouts
-            {workouts.map((workout) => {
-              return (
-                <ListItem alignItems="flex-start">
-                  <ListItemText
-                    primary={workout.type}
-                    secondary={<p>{workout.METs}</p>}
-                  />
-                </ListItem>
-              );
-            })}
-          </List>
+          <Col>
+            <List>
+              Past Workouts
+              {workouts.map((workout, idx) => {
+                return (
+                  <ListItem alignItems="flex-start">
+                    <ListItemText
+                      primary={workout.type}
+                      secondary={
+                        <>
+                          {workout.METs}, {workout.duration} minutes
+                          {workout.equipment.length === 0
+                            ? ""
+                            : `, ${workout.equipment.join(", ")}`}
+                        </>
+                      }
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => handleDeleteWorkout(idx)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Col>
+          <Col>
+            <List>
+              Past Meals
+              {meals.map((meal, idx) => {
+                return (
+                  <ListItem alignItems="flex-start">
+                    <ListItemText
+                      primary={meal.recipeName}
+                      secondary={
+                        <>
+                          {meal.protein}g protein, {meal.calories} calories
+                        </>
+                      }
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => handleDeleteMeal(idx)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Col>
         </div>
       </div>
       <div className="B">

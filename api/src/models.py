@@ -8,10 +8,10 @@ class Gender(enum.Enum):
     MALE = "Male"
     OTHER = "Other"
 
-eats = db.Table('eats',
-        db.Column('id', db.Integer, db.ForeignKey('people.id'), primary_key=True),
-        db.Column('recipeId', db.Integer, db.ForeignKey('Recipe.recipeId'), primary_key=True)
-    )
+# eats = db.Table('eats',
+#         db.Column('id', db.Integer, db.ForeignKey('people.id'), primary_key=True),
+#         db.Column('recipeId', db.Integer, db.ForeignKey('Recipe.recipeId'), primary_key=True)
+#     )
 
 class Person(db.Model):
     """Model for user accounts"""
@@ -19,14 +19,18 @@ class Person(db.Model):
 
     __tablename__ = 'people'
     id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
     firstName = db.Column(db.String(255), nullable=False)
     lastName = db.Column(db.String(255), nullable=False)
     gender = db.Column(db.Enum(Gender), nullable=False)
     weight = db.Column(db.Integer, nullable=False)
     height = db.Column(db.Integer, nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    eats = db.relationship('Recipe', secondary=eats, lazy='subquery',
-                           backref=db.backref('people', lazy=True))
+    # eats = db.relationship('Recipe', secondary=eats, lazy='subquery',
+    #                        backref=db.backref('people', lazy=True))
+    recipes = db.relationship("Recipe")
+
     def __init__(self, firstName, lastName, gender, weight, height, age):
         self.firstName = firstName
         self.lastName = lastName
@@ -66,7 +70,8 @@ class Recipe(db.Model):
     recipeName = db.Column(db.String(255), nullable=False)
     protein = db.Column(db.Integer, nullable=False)
     # vitamin = db.Column(db.ARRAY(db.Float), nullable=False) mysql does not support an array
-    calories = db.Column(db.Integer,nullable = False)
+    calories = db.Column(db.Integer, nullable = False)
+    personId = db.Column(db.Integer, db.ForeignKey('people.id'))
 
     def __init__(self,name,protein,vitamin,calories):
         self.recipeName - name

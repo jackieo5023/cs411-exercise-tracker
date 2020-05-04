@@ -3,7 +3,6 @@ body,
 .grid-container-dashboard {
   height: 130vh;
   margin: 0;
-  font-family: Lato;
 }
 
 .grid-container-dashboard * {
@@ -78,7 +77,7 @@ body,
 }
 .greeting {
   display: block;
-  font-size: 4vw;
+  font-size: 2.8vw;
 }
 
 .loggingmsg {
@@ -105,7 +104,6 @@ body,
   display: block;
   font-size: 1.5vw;
   color: #ffffff;
-  font-family: Lato;
   padding-top: 3%;
   padding-bottom: 3%;
 }
@@ -114,7 +112,6 @@ body,
   display: block;
   font-size: 3.5vw;
   color: #ffffff;
-  font-family: Lato;
 }
 
 /* Card 2: Burned calories */
@@ -135,7 +132,6 @@ body,
   display: block;
   font-size: 1.5vw;
   color: #ffffff;
-  font-family: Lato;
   padding-top: 3%;
   padding-bottom: 3%;
 }
@@ -144,7 +140,6 @@ body,
   display: block;
   font-size: 3.5vw;
   color: #ffffff;
-  font-family: Lato;
 }
 
 /* Card 3: Exercise */
@@ -164,7 +159,6 @@ body,
   display: block;
   font-size: 1.5vw;
   color: #ffffff;
-  font-family: Lato;
   padding-top: 3%;
   padding-bottom: 3%;
 }
@@ -173,7 +167,6 @@ body,
   display: block;
   font-size: 3.5vw;
   color: #ffffff;
-  font-family: Lato;
 }
 .suggworkouttext {
   display: block;
@@ -191,10 +184,14 @@ body,
 
 .suggestedworkouts {
   margin-left: 1.75vw;
+  height: 70vh;
+  overflow-y: scroll;
 }
 
 .suggestedrecipes {
   margin-left: 1.75vw;
+  height: 70vh;
+  overflow-y: scroll;
 }
 
 /* Card type A: Workouts */
@@ -215,9 +212,8 @@ body,
   display: block;
   font-size: 1.5vw;
   color: #ffffff;
-  font-family: Lato;
-  padding-top: 6vw;
-  padding-bottom: 6vw;
+  padding-top: 3vw;
+  padding-bottom: 3vw;
 }
 
 /* Card type B: Recipes */
@@ -238,7 +234,24 @@ body,
   display: block;
   font-size: 1.5vw;
   color: #ffffff;
-  font-family: Lato;
-  padding-top: 6vw;
-  padding-bottom: 6vw;
+  padding-top: 3vw;
+  padding-bottom: 3vw;
+}
+
+.workout-modal {
+  position: absolute;
+  top: 30vh;
+  left: 37vw;
+  width: 500px;
+  height: 300px;
+  text-align: center;
+}
+
+.workout-modal-header {
+  margin-top: 46px;
+  margin-bottom: 20px;
+}
+
+.workout-modal-button {
+  margin-top: 20px;
 }

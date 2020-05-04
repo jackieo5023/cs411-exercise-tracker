@@ -19,12 +19,16 @@ function Login({ setUserId }) {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      const response = await login({ id: e.target.elements.id.value });
+      const response = await login({
+        username: e.target.elements.username.value,
+        password: e.target.elements.password.value,
+      });
       if (response.status !== 200) {
         setMessage(response.message);
       } else {
         setMessage("");
         setUserId(response.id);
+        localStorage.setItem("userId", response.id);
       }
     },
     [setUserId]
@@ -32,14 +36,14 @@ function Login({ setUserId }) {
 
   return (
     <Container>
-      <Col sm={{ size: 10, offset: 4 }} className="mb-4">
-        <div className="d-flex flex-wrap align-items-center mb-4 ml-5">
-          <h1 className="d-inline-block mb-0 mt-3 mr-auto pr-3 justify-content-center ml-3">
-            Login
-          </h1>
-        </div>
+      <Col sm={{ size: 10, offset: 3 }}>
         <Row>
           <Form onSubmit={async (e) => handleSubmit(e)}>
+            <FormGroup row>
+              <Col className="text-center">
+                <h1>Login</h1>
+              </Col>
+            </FormGroup>
             {message.length > 0 && (
               <FormGroup row>
                 <Col className="text-center">
@@ -48,11 +52,24 @@ function Login({ setUserId }) {
               </FormGroup>
             )}
             <FormGroup row>
-              <Label for="id" sm={2}>
-                ID
+              <Label for="username" sm={3}>
+                Username
               </Label>
               <Col>
-                <Input type="text" name="id" id="id" placeholder="0" />
+                <Input
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="johnnyappleseed"
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label for="password" sm={3}>
+                Password
+              </Label>
+              <Col>
+                <Input type="password" name="password" id="password" />
               </Col>
             </FormGroup>
             <FormGroup row>

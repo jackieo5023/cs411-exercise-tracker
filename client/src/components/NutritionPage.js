@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -14,53 +14,127 @@ import NutritionGraph from "./NutritionGraph";
 
 //Stylesheet
 import "../css/Nutrition.css";
+import { addRecipe, getSuggestedRecipes } from "../utils/api";
 
-function NutritionPage() {
+function NutritionPage({ userId }) {
+  const [name, setName] = useState("");
   const [calories, setCalories] = useState("");
   const [protein, setProtein] = useState("");
-  const [ingr1, setIngr1] = useState("");
-  const [ing2, setIngr2] = useState("");
-  const [ing3, setIngr3] = useState("");
-  const [ing4, setIngr4] = useState("");
+  const [suggestedRecipes, setSuggestedRecipes] = useState([]);
 
-  const handleChange = (event) => {
+  const handleSubmit = async () => {
+    const response = await addRecipe({
+      recipeName: name,
+      calories,
+      protein,
+      id: userId,
+    });
+    if (response.status === 201) {
+      setName("");
+      setCalories("");
+      setProtein("");
+    }
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+  const handleCaloriesChange = (event) => {
     setCalories(event.target.value);
   };
+  const handleProteinChange = (e) => {
+    setProtein(e.target.value);
+  };
+
+  const handleAddSuggestedRecipe = useCallback(
+    async (i) => {
+      await addRecipe({ id: userId, ...suggestedRecipes[i] });
+    },
+    [suggestedRecipes, userId]
+  );
+
+  useEffect(() => {
+    async function fetchData() {
+      const recipeResponse = await getSuggestedRecipes({ id: userId });
+      if (recipeResponse.status === 200) {
+        setSuggestedRecipes(recipeResponse.food);
+      }
+    }
+    fetchData();
+  }, [userId]);
 
   return (
     <div class="grid-container-nu">
       <div class="A-nu">
         <div class="E-nu">
-          <div class="I-nu">
-            <Card className="recipecardnu">
-              <CardContent className="recipecardcontentnu">
-                <h4 className="recipecardtextnu">Salmon with Edamame</h4>
-              </CardContent>
-            </Card>
-          </div>
-          <div class="J-nu">
-            <Card className="recipecardnu">
-              <CardContent className="recipecardcontentnu">
-                <h4 className="recipecardtextnu">Easy Chicken Tacos</h4>
-              </CardContent>
-            </Card>
-          </div>
-          <div class="K-nu">
-            <Card className="recipecardnu">
-              <CardContent className="recipecardcontentnu">
-                <h4 className="recipecardtextnu">Garden Chicken Burger</h4>
-              </CardContent>
-            </Card>
-          </div>
-          <div class="L-nu">
-            <Card className="recipecardnu">
-              <CardContent className="recipecardcontentnu">
-                <h4 className="recipecardtextnu">
-                  Spinach and Mushroom Quiche
-                </h4>
-              </CardContent>
-            </Card>
-          </div>
+          {suggestedRecipes[0] && (
+            <div class="I-nu">
+              <Card className="recipecardnu">
+                <CardContent className="recipecardcontentnu">
+                  <div className="recipecardtextnu">
+                    <h4>Name: {suggestedRecipes[0].recipeName}</h4>
+                    <h4>Protein: {suggestedRecipes[0].protein}g</h4>
+                    <h4>Calories: {suggestedRecipes[0].calories}</h4>
+                    <h4>Made By: {suggestedRecipes[0].firstName}</h4>
+                    <Button onClick={() => handleAddSuggestedRecipe(0)}>
+                      Add to Meals
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          {suggestedRecipes[1] && (
+            <div class="J-nu">
+              <Card className="recipecardnu">
+                <CardContent className="recipecardcontentnu">
+                  <div className="recipecardtextnu">
+                    <h4>Name: {suggestedRecipes[1].recipeName}</h4>
+                    <h4>Protein: {suggestedRecipes[1].protein}g</h4>
+                    <h4>Calories: {suggestedRecipes[1].calories}</h4>
+                    <h4>Made By: {suggestedRecipes[1].firstName}</h4>
+                    <Button onClick={() => handleAddSuggestedRecipe(1)}>
+                      Add to Meals
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          {suggestedRecipes[2] && (
+            <div class="K-nu">
+              <Card className="recipecardnu">
+                <CardContent className="recipecardcontentnu">
+                  <div className="recipecardtextnu">
+                    <h4>Name: {suggestedRecipes[2].recipeName}</h4>
+                    <h4>Protein: {suggestedRecipes[2].protein}g</h4>
+                    <h4>Calories: {suggestedRecipes[2].calories}</h4>
+                    <h4>Made By: {suggestedRecipes[2].firstName}</h4>
+                    <Button onClick={() => handleAddSuggestedRecipe(2)}>
+                      Add to Meals
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          {suggestedRecipes[3] && (
+            <div class="L-nu">
+              <Card className="recipecardnu">
+                <CardContent className="recipecardcontentnu">
+                  <div className="recipecardtextnu">
+                    <h4>Name: {suggestedRecipes[3].recipeName}</h4>
+                    <h4>Protein: {suggestedRecipes[3].protein}g</h4>
+                    <h4>Calories: {suggestedRecipes[3].calories}</h4>
+                    <h4>Made By: {suggestedRecipes[3].firstName}</h4>
+                    <Button onClick={() => handleAddSuggestedRecipe(3)}>
+                      Add to Meals
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
         <div class="F-nu">
           <div className="suggrecipetextpanelnu">
@@ -90,12 +164,14 @@ function NutritionPage() {
               <TextField
                 className="textbox"
                 id="outlined-basic"
-                label="Calories, if known (cals)"
-                placeholder="800"
+                label="Recipe Name"
+                placeholder="Burger"
                 required
                 id="outlined-required"
                 variant="outlined"
                 style={{ width: "250px" }}
+                value={name}
+                onChange={handleNameChange}
               />
             </form>
           </div>
@@ -104,117 +180,39 @@ function NutritionPage() {
               <TextField
                 className="textbox"
                 id="outlined-basic"
-                label="Protein, if known (grams)"
+                label="Calories (cals)"
+                placeholder="800"
+                required
+                id="outlined-required"
+                variant="outlined"
+                style={{ width: "250px" }}
+                value={calories}
+                onChange={handleCaloriesChange}
+                type="number"
+              />
+            </form>
+          </div>
+          <div class="recipetextbox">
+            <form noValidate autoComplete="off">
+              <TextField
+                className="textbox"
+                id="outlined-basic"
+                label="Protein (grams)"
                 placeholder="28"
                 required
                 id="outlined-required"
                 variant="outlined"
                 style={{ width: "250px" }}
+                value={protein}
+                onChange={handleProteinChange}
+                type="number"
               />
             </form>
           </div>
-          <div class="recipedropdown">
-            <FormControl variant="outlined">
-              <InputLabel id="demo-simple-select-outlined-label">
-                Main Ingredients (up to 4) *
-              </InputLabel>
-              <Select
-                className="dropdownbox"
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                required
-                value={calories}
-                onChange={handleChange}
-                label="Main Ingredients (up to 4) *"
-                style={{ width: "250px" }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={1}>Eggs</MenuItem>
-                <MenuItem value={2}>Tuna</MenuItem>
-                <MenuItem value={3}>Bread</MenuItem>
-                <MenuItem value={4}>Chicken</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div class="recipedropdown">
-            <FormControl variant="outlined">
-              <InputLabel id="demo-simple-select-outlined-label">
-                Main Ingredients (up to 4) *
-              </InputLabel>
-              <Select
-                className="dropdownbox"
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                required
-                value={calories}
-                onChange={handleChange}
-                label="Main Ingredients (up to 4) *"
-                style={{ width: "250px" }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={1}>Eggs</MenuItem>
-                <MenuItem value={2}>Tuna</MenuItem>
-                <MenuItem value={3}>Bread</MenuItem>
-                <MenuItem value={4}>Chicken</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div class="recipedropdown">
-            <FormControl variant="outlined">
-              <InputLabel id="demo-simple-select-outlined-label">
-                Main Ingredients (up to 4) *
-              </InputLabel>
-              <Select
-                className="dropdownbox"
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                required
-                value={calories}
-                onChange={handleChange}
-                label="Main Ingredients (up to 4) *"
-                style={{ width: "250px" }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={1}>Eggs</MenuItem>
-                <MenuItem value={2}>Tuna</MenuItem>
-                <MenuItem value={3}>Bread</MenuItem>
-                <MenuItem value={4}>Chicken</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div class="recipedropdown">
-            <FormControl variant="outlined">
-              <InputLabel id="demo-simple-select-outlined-label">
-                Main Ingredients (up to 4) *
-              </InputLabel>
-              <Select
-                className="dropdownbox"
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                required
-                value={calories}
-                onChange={handleChange}
-                label="Main Ingredients (up to 4) *"
-                style={{ width: "250px" }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={1}>Eggs</MenuItem>
-                <MenuItem value={2}>Tuna</MenuItem>
-                <MenuItem value={3}>Bread</MenuItem>
-                <MenuItem value={4}>Chicken</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
           <div class="recipebuttongroup">
-            <Button class="recipebutton">Submit Meal</Button>
+            <Button class="recipebutton" onClick={handleSubmit}>
+              Submit Meal
+            </Button>
           </div>
         </div>
       </div>
