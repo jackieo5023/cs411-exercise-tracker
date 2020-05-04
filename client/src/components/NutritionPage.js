@@ -23,12 +23,17 @@ function NutritionPage({ userId }) {
   const [suggestedRecipes, setSuggestedRecipes] = useState([]);
 
   const handleSubmit = async () => {
-    await addRecipe({
+    const response = await addRecipe({
       recipeName: name,
       calories,
       protein,
       id: userId,
     });
+    if (response.status === 201) {
+      setName("");
+      setCalories("");
+      setProtein("");
+    }
   };
 
   const handleNameChange = (e) => {

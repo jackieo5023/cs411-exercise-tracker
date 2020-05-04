@@ -61,7 +61,6 @@ function UserProfile({ location, userId }) {
       }
 
       const mealsResponse = await getRecipes({ id: userId });
-      console.log(mealsResponse);
       if (mealsResponse.status === 200) {
         setMeals(mealsResponse.food);
       }

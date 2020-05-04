@@ -19,7 +19,10 @@ function Login({ setUserId }) {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      const response = await login({ id: e.target.elements.id.value });
+      const response = await login({
+        username: e.target.elements.username.value,
+        password: e.target.elements.password.value,
+      });
       if (response.status !== 200) {
         setMessage(response.message);
       } else {
@@ -49,11 +52,24 @@ function Login({ setUserId }) {
               </FormGroup>
             )}
             <FormGroup row>
-              <Label for="id" sm={2}>
-                ID
+              <Label for="username" sm={3}>
+                Username
               </Label>
               <Col>
-                <Input type="text" name="id" id="id" placeholder="0" />
+                <Input
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="johnnyappleseed"
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label for="password" sm={3}>
+                Password
+              </Label>
+              <Col>
+                <Input type="password" name="password" id="password" />
               </Col>
             </FormGroup>
             <FormGroup row>

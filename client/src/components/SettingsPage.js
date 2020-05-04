@@ -11,12 +11,14 @@ import { getPerson, deletePerson } from "../utils/api";
 
 function SettingsPage({ userId, setUserId }) {
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     async function fetchData() {
       const response = await getPerson({ id: userId });
       if (response.status === 200) {
         setName(`${response.person.firstName} ${response.person.lastName}`);
+        setUsername(response.person.username);
       }
     }
     fetchData();
@@ -32,7 +34,7 @@ function SettingsPage({ userId, setUserId }) {
   return (
     <div className="main">
       <h1>{name}</h1>
-      <h2>ID: {userId}</h2>
+      <h2>Username: {username}</h2>
       <div>
         <Link
           className="link"

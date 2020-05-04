@@ -19,6 +19,8 @@ class Person(db.Model):
 
     __tablename__ = 'people'
     id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
     firstName = db.Column(db.String(255), nullable=False)
     lastName = db.Column(db.String(255), nullable=False)
     gender = db.Column(db.Enum(Gender), nullable=False)

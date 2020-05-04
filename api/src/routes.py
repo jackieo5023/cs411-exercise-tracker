@@ -102,6 +102,8 @@ def register():
     if not body:
         return {"status": 400, "message": "Invalid body"}
 
+    username = body.get("username")
+    password = body.get("password")
     firstName = body.get("firstName")
     gender = body.get("gender")
     weight = body.get("weight")
@@ -109,13 +111,13 @@ def register():
     age = body.get("age")
     lastName = body.get("lastName")
 
-    if not firstName or not lastName or not gender or not weight or not height or not age:
+    if not username or not password or not firstName or not lastName or not gender or not weight or not height or not age:
         return {"status": 400, "message": "Missing field"}
 
     try:
         result = db.session.execute(
-            "INSERT INTO people (firstName, gender, weight, height, age, lastName) VALUES (:firstName, :gender, :weight, :height, :age, :lastName)",
-            {"firstName": firstName, "gender": gender, "weight": weight, "height": height, "age": age, "lastName": lastName},
+            "INSERT INTO people (username, password, firstName, gender, weight, height, age, lastName) VALUES (:username, :password, :firstName, :gender, :weight, :height, :age, :lastName)",
+            {"username": username, "password": password, "firstName": firstName, "gender": gender, "weight": weight, "height": height, "age": age, "lastName": lastName},
         )
         db.session.commit()
     except IntegrityError:
@@ -132,20 +134,21 @@ def login():
     if not body:
         return {"status": 400, "message": "Invalid body"}
 
-    person_id = body.get("id")
-    if not person_id:
+    username = body.get("username")
+    password = body.get("password")
+    if not username or not password:
         return {"status": 400, "message": "Missing field"}
 
     result = db.session.execute(
-        "SELECT id FROM people WHERE id=:id",
-        {"id": person_id},
+        "SELECT id FROM people WHERE username=:username AND password=:password",
+        {"username": username, "password": password},
     )
     person = result.fetchone()
     result.close()
 
     if person:
-        return {"status": 200, "message": "Person found", "id": person_id}
-    return {"status": 404, "message": "Person not found"}
+        return {"status": 200, "message": "Person found", "id": person[0]}
+    return {"status": 404, "message": "Person not found - maybe incorrect username or password?"}
 
 @app.route("/api/me", methods=['GET', 'PUT', 'DELETE'])
 def me():
