@@ -281,6 +281,10 @@ def me():
             return {"status": 400, "message": "Missing header"}
 
         db.session.execute(
+            "DELETE FROM Recipe WHERE personId=:personId",
+            {"personId": person_id}
+        )
+        db.session.execute(
             "DELETE FROM CompletedWorkout WHERE personId=:personId",
             {"personId": person_id}
         )
@@ -408,25 +412,25 @@ def recommend(id):
     recommend_workouts = []
     client = mongo.cx
     if BMI < 18.5:
-        workouts = client.test.workouts.find({"METs": {'$lte': 5.0}},{"type":1,"METs":1,"equipment":1}).limit(4)
+        workouts = client.test.workouts.find({"METs": {'$lte': 5.0}},{"type":1,"METs":1,"equipment":1})
         for workout in workouts:
             temp = workout
             temp["_id"] = str(workout["_id"])
             recommend_workouts.append(temp)
     elif BMI < 25:
-        workouts = client.test.workouts.find({"METs": {'$gte': 8.0,'$lte': 15.0}},{"type":1,"METs":1,"equipment":1}).limit(4)
+        workouts = client.test.workouts.find({"METs": {'$gte': 8.0,'$lte': 15.0}},{"type":1,"METs":1,"equipment":1})
         for workout in workouts:
             temp = workout
             temp["_id"] = str(workout["_id"])
             recommend_workouts.append(temp)
     elif BMI < 30:
-        workouts = client.test.workouts.find({"METs": {'$gte': 5.1,'$lte': 7.5}},{"type":1,"METs":1,"equipment":1}).limit(4)
+        workouts = client.test.workouts.find({"METs": {'$gte': 5.1,'$lte': 7.5}},{"type":1,"METs":1,"equipment":1})
         for workout in workouts:
             temp = workout
             temp["_id"] = str(workout["_id"])
             recommend_workouts.append(temp)
     else:
-        workouts = client.test.workouts.find({"METs": {'$lte': 5.0}},{"type":1,"METs":1,"equipment":1}).limit(4)
+        workouts = client.test.workouts.find({"METs": {'$lte': 5.0}},{"type":1,"METs":1,"equipment":1})
         for workout in workouts:
             temp = workout
             temp["_id"] = str(workout["_id"])
